@@ -52,7 +52,7 @@ struct MotorController {
 
     last_counter = counter;
     counter = 0;
-    return get_rad_s(last_counter, dt);
+    return get_cm_s(last_counter, dt);
   }
 
   void pid() {
@@ -67,7 +67,11 @@ struct MotorController {
 };
 
 MotorController m1(1);
+void increment1() { ++m1.counter; }
+
 MotorController m2(2);
+void increment2() { ++m2.counter; }
+
 
 //Funções----------------------------------------------------------
 // motor
@@ -120,7 +124,7 @@ int read_ir() {
 //*****************************************************************
 //*****************************************************************
 void follow_line() {
-  static const int base = 160;
+  static const int base = 30;
   static const float kp = 50;
   static const float ki = 0.010;
   static const float kd = 1;
@@ -137,6 +141,11 @@ void follow_line() {
   int s = p*kp + i*ki + d*kd;
 
   run(base+s, base-s);
+  m1.pid();
+  m2.pid();
+  Serial.print(m1.speed());
+  Serial.print(" - ");
+  Serial.print(m2.speed());
   delay(10);
 }
 

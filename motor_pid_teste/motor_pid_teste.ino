@@ -3,9 +3,9 @@
 struct MotorController {
   static constexpr int resolucao = 20; // lacunas por volta
   static constexpr float circunferencia = 22; // 7pi cm, a roda tem D = 7cm
-  static constexpr float kp = 0.8;
+  static constexpr float kp = 0.5;
   static constexpr float ki = 0;
-  static constexpr float kd = 0.1;
+  static constexpr float kd = 0;
 
   AF_DCMotor motor;
   int motor_power = 0;
@@ -28,7 +28,7 @@ struct MotorController {
   }
 
   float get_rad_s (int counter, float dt) {
-    return (1000 / resolucao) * (counter / dt);
+    return (500 / resolucao) * (counter / dt);
   }
 
   float get_rpm (int counter, float dt) {
@@ -74,8 +74,8 @@ void setup() {
   Serial.begin(115200);
   init_encoders();
 
-  m1.setSpeed(2);
-  m2.setSpeed(2);
+  m1.setSpeed(6);
+  m2.setSpeed(6);
   m1.run(FORWARD);
   m2.run(FORWARD);
 }
@@ -87,5 +87,5 @@ void loop() {
 
   m1.pid();
   m2.pid();
-  delay(200);
+  delay(20);
 }
