@@ -87,6 +87,12 @@ void run(float s1, float s2) {
   }
 }
 
+void inverse_kinematics (float vx, float omega) {
+  float forward = vx / 3.5;
+  float angular = omega * 13. / 7;
+  run(forward + angular, forward - angular);
+}
+
 // infravermelho
 void init_ir() { 
   error_table[0b1110] = -7;
@@ -115,9 +121,16 @@ int read_ir() {
 }
 //*****************************************************************
 //*****************************************************************
+unsigned long lu = 0;
 void follow_line() {
-  static const float base = 8;
-  static const float kp = 1;
+  unsigned long now = millis();
+  if (now - lu >= 200) {
+    lu = now;
+    m1.pid();
+    m2.pid();
+  }
+  
+  static const float kp = 8;
   static const float ki = 0;
   static const float kd = 0;
   static int last_err = 0;
@@ -130,12 +143,10 @@ void follow_line() {
   d = err - last_err;
   last_err = err;
 
-  int s = 0;// p*kp + i*ki + d*kd;
+  int s = p*kp + i*ki + d*kd;
 
-  run(base+s, base-s);
-  m1.pid();
-  m2.pid();
-  delay(200);
+  inverse_kinematics(40, s);
+  delay(20);
 }
 
 //Main-------------------------------------------------------------
@@ -147,32 +158,6 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(21), increment2, FALLING);
 }
 
-void ik (float vx, float omega) {
-  float forward = vx / 3.5;
-  float angular = omega * 13. / 7;
-  run(forward - angular, forward + angular);
-}
-int state = 1000;
-unsigned long lu = 0;
-unsigned long l2 = 0;
-
 void loop() {
-  unsigned long now = millis();
-  if (now - lu > state) {
-    lu = now;
-    if (state == 1000) {
-        ik(17, 0);
-        state = 3000;
-    }
-    else {
-      ik(0, M_PI/2);
-      state = 1000;
-    }
-  }  
-
-  if ((now - l2) >= 200) {
-    l2 = now;
-    m1.pid(); 
-    m2.pid();
-  }
+  follow_line();
 }
