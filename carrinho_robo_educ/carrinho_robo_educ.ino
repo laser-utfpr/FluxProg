@@ -10,9 +10,9 @@ int error_table[16];
 struct MotorController {
   static constexpr int resolucao = 20; // lacunas por volta
   static constexpr float circunferencia = 22; // 7pi cm, a roda tem D = 7cm
-  static constexpr float kp = 0.8;
-  static constexpr float ki = 0;
-  static constexpr float kd = 0.1;
+  static constexpr float kp = 9;
+  static constexpr float ki = 0.00;
+  static constexpr float kd = 0.2;
 
   AF_DCMotor motor;
   int motor_power = 0;
@@ -30,17 +30,9 @@ struct MotorController {
 
   MotorController(int id): motor(id) {}
 
-  float get_cm_s (int counter, float dt) {
-    return (1000 * circunferencia / resolucao) * (counter / dt);
-  }
-
-  float get_rad_s (int counter, float dt) {
-    return (1000 / resolucao) * (counter / dt);
-  }
-
-  float get_rpm (int counter, float dt) {
-    return 60 * (1000 / resolucao) * (counter / dt);
-  }
+  float get_cm_s (int counter, float dt) { return (1000 * circunferencia / resolucao) * (counter / dt); }
+  float get_rad_s (int counter, float dt) { return (1000 / resolucao) * (counter / dt); }
+  float get_rpm (int counter, float dt) { return 60 * (1000 / resolucao) * (counter / dt); }
 
   void run(int dir) { motor.run(dir); }
   void setSpeed(float speed) { target = speed; }
@@ -52,7 +44,7 @@ struct MotorController {
 
     last_counter = counter;
     counter = 0;
-    return get_cm_s(last_counter, dt);
+    return get_rad_s(last_counter, dt);
   }
 
   void pid() {
@@ -75,7 +67,7 @@ void increment2() { ++m2.counter; }
 
 //Funções----------------------------------------------------------
 // motor
-void run(int s1, int s2) {
+void run(float s1, float s2) {
   if (s1 >= 0) {
     m1.run(FORWARD);
     m1.setSpeed(min(s1, 255));
@@ -124,10 +116,10 @@ int read_ir() {
 //*****************************************************************
 //*****************************************************************
 void follow_line() {
-  static const int base = 30;
-  static const float kp = 50;
-  static const float ki = 0.010;
-  static const float kd = 1;
+  static const float base = 8;
+  static const float kp = 1;
+  static const float ki = 0;
+  static const float kd = 0;
   static int last_err = 0;
   static float p = 0, i = 0, d = 0;
   
@@ -138,27 +130,49 @@ void follow_line() {
   d = err - last_err;
   last_err = err;
 
-  int s = p*kp + i*ki + d*kd;
+  int s = 0;// p*kp + i*ki + d*kd;
 
   run(base+s, base-s);
   m1.pid();
   m2.pid();
-  Serial.print(m1.speed());
-  Serial.print(" - ");
-  Serial.print(m2.speed());
-  delay(10);
+  delay(200);
 }
 
 //Main-------------------------------------------------------------
 
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   init_ir();
   attachInterrupt(digitalPinToInterrupt(20), increment1, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), increment2, FALLING);
 }
 
+void ik (float vx, float omega) {
+  float forward = vx / 3.5;
+  float angular = omega * 13. / 7;
+  run(forward - angular, forward + angular);
+}
+int state = 1000;
+unsigned long lu = 0;
+unsigned long l2 = 0;
 
 void loop() {
-  follow_line();
+  unsigned long now = millis();
+  if (now - lu > state) {
+    lu = now;
+    if (state == 1000) {
+        ik(17, 0);
+        state = 3000;
+    }
+    else {
+      ik(0, M_PI/2);
+      state = 1000;
+    }
+  }  
+
+  if ((now - l2) >= 200) {
+    l2 = now;
+    m1.pid(); 
+    m2.pid();
+  }
 }
