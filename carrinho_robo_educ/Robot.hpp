@@ -9,6 +9,10 @@ class Robot {
   MotorController m2{2};
   Infrared ir;
   unsigned long last_update = 0;
+  int last_err = 0;
+
+  static constexpr float kp = 8;
+  static constexpr float kd = 0;
 public:
   void begin(void (*increment1)(), void (*increment2)());
   void update();

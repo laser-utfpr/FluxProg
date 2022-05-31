@@ -8,24 +8,13 @@ void Robot::begin(void (*increment1)(), void (*increment2)()) {
 }
 
 void Robot::update() {
-  m1.pid();
-  m2.pid();
+  m1.update();
+  m2.update();
 
-  static const float kp = 8;
-  static const float ki = 0;
-  static const float kd = 0;
-  static int last_err = 0;
-  static float p = 0, i = 0, d = 0;
-  
   int err = ir.read_error();
-
-  p = err;
-  i = i + err;
-  d = err - last_err;
-  last_err = err;
-
-  int s = p*kp + i*ki + d*kd;
+  int s = err*kp + (err-last_err)*kd;
   inverse_kinematics(40, s);
+  last_err = err;
 }
 
 void Robot::run(float s1, float s2) {
