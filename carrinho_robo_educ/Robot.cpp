@@ -8,12 +8,8 @@ void Robot::begin(void (*increment1)(), void (*increment2)()) {
 }
 
 void Robot::update() {
-  unsigned long now = millis();
-  if (now - last_update >= 200) {
-    last_update = now;
-    m1.pid();
-    m2.pid();
-  }
+  m1.pid();
+  m2.pid();
 
   static const float kp = 8;
   static const float ki = 0;
@@ -29,7 +25,6 @@ void Robot::update() {
   last_err = err;
 
   int s = p*kp + i*ki + d*kd;
-
   inverse_kinematics(40, s);
 }
 

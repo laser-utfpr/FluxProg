@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 int Infrared::error_table[16];
-int Infrared::pin_ir[4] = { 45, 47, 49, 51 };
+const int Infrared::pin_ir[4] = { 45, 47, 49, 51 };
 
 void Infrared::begin() {
   error_table[0b1110] = -7;

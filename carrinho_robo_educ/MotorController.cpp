@@ -14,16 +14,19 @@ void MotorController::setSpeed(float speed) {
 }
 
 float MotorController::get_speed() {
-  now = millis();
-  dt = now - last_time;
-  last_time = now;
-  
-  last_counter = counter;
+  unsigned long now = millis();
+  float dt = now - last_update;
+  int last_counter = counter;
   counter = 0;
   return get_rad_s(last_counter, dt);
 }
 
 void MotorController::pid() {
+  unsigned long now = millis();
+  if (now - last_update < 200) {
+    return;
+  }
+
   speed = get_speed();
   err = target - speed;
 
@@ -31,4 +34,6 @@ void MotorController::pid() {
   motor_power = min(255, max(motor_power, 0));
   motor.setSpeed(motor_power);
   last_err = err;
+
+  last_update += 200;
 }

@@ -14,10 +14,7 @@ class MotorController {
   int motor_power = 0;
   
   int counter = 0;
-  int last_counter = 0;
-  unsigned long last_time = 0;
-  unsigned long now = 0;
-  float dt;
+  unsigned long last_update = 0;
   
   int err = 0;
   int last_err = 0;
