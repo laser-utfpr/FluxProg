@@ -4,9 +4,7 @@
 #include <AFMotor.h>
 
 class MotorController {
-  static constexpr int resolucao = 20; // lacunas por volta
-  static constexpr float circunferencia = 22; // 7pi cm, a roda tem D = 7cm
-  static constexpr float kp = 9;
+  static constexpr float kp = 6;
   static constexpr float kd = 0.2;
   
   AF_DCMotor motor;

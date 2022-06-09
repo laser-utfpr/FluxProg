@@ -4,7 +4,18 @@
 #include "MotorController.hpp"
 #include "Infrared.hpp"
 
+enum class CarState {
+  Stop,
+  FollowLine,
+  Forward,
+  Left,
+  Right,
+};
+
 class Car {
+  CarState state;
+  unsigned long stime;
+  
   MotorController m1{1};
   MotorController m2{2};
   Infrared ir;
@@ -20,7 +31,8 @@ public:
   void increment1() { m1.increment(); }
   void increment2() { m2.increment(); }
 
-  void stop();
+  void setState(CarState st) { state = st; stime = 0; }
+  
   void run(float s1, float s2);
   void inverse_kinematics(float vx, float omega);
 };

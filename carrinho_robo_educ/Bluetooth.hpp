@@ -21,7 +21,9 @@ public:
   void write(char c) {
     Serial1.write(c);
   }
-  void print(String s) { Serial1.print(s); }
+  void print(String s) {
+    Serial1.print(s); 
+  }
 };
 
 #endif

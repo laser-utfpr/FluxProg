@@ -1,16 +1,17 @@
 #include "MotorController.hpp"
+#include "Config.hpp"
 #include <Arduino.h>
 
 float MotorController::get_cm_s (int counter, float dt) {
-  return (1000 * circunferencia / resolucao) * (counter / dt);
+  return (1000 * Rodas::C / Encoder::k) * (counter / dt);
 }
 
 float MotorController::get_rad_s (int counter, float dt) {
-  return (1000 / resolucao) * (counter / dt);
+  return (1000 / Encoder::k) * (counter / dt);
 }
 
 float MotorController::get_rpm (int counter, float dt) {
-  return 60 * (1000 / resolucao) * (counter / dt);
+  return 60 * (1000 / Encoder::k) * (counter / dt);
 }
 
 void MotorController::run(int dir) {

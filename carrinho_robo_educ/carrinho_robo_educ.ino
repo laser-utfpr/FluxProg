@@ -12,25 +12,28 @@ void setup() {
   car.begin(increment1, increment2);
 }
 
-bool andando = false;
 void loop() {
-  if (andando) {
-    car.update();
-  }
+  car.update();
   delay(20);
 
   while (bt.available()) {
     char c = bt.read();
     bt.write(c);
 
-    if (c == 'S') { 
-      bt.print("Segue linha");
-      andando = true;
+    if (c == 'S') {
+      car.setState(CarState::FollowLine);
     }
-    else if (c == 'P') { 
-      bt.print("Parado");
-      car.stop();
-      andando = false; 
+    else if (c == 'P') {
+      car.setState(CarState::Stop);
+    }
+    else if (c == 'F') {
+      car.setState(CarState::Forward);
+    }
+    else if (c == 'L') { 
+      car.setState(CarState::Left);
+    }
+    else if (c == 'R') {
+      car.setState(CarState::Right);
     }
   }
 
