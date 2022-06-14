@@ -26,16 +26,18 @@ void loop() {
     else if (c == 'P') {
       car.setState(CarState::Stop);
     }
-    else if (c == 'F') {
+    else if (c == 8) {
       car.setState(CarState::Forward);
     }
-    else if (c == 'L') { 
+    else if (c == 4) {
       car.setState(CarState::Left);
     }
-    else if (c == 'R') {
+    else if (c == 6) {
       car.setState(CarState::Right);
     }
   }
+
+  // TODO: SEND SENSOR INFORMATION
 
   while (Serial.available()) {
     char c = Serial.read();

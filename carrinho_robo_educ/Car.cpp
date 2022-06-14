@@ -10,11 +10,12 @@ void Car::begin(void (*increment1)(), void (*increment2)()) {
 
 void Car::update() {
   stime += 1;
+
+  m1.update();
+  m2.update();
+
   switch (state) {
   case CarState::FollowLine: {
-    m1.update();
-    m2.update();
-  
     int err = ir.read_error();
     int s = err*kp + (err-last_err)*kd;
     inverse_kinematics(20, -s);
@@ -22,8 +23,7 @@ void Car::update() {
     break;
   }
   case CarState::Stop:
-    m1.run(RELEASE);
-    m2.run(RELEASE);
+    run(0, 0);
     break;
   case CarState::Forward:
     inverse_kinematics(40, 0);
@@ -41,22 +41,30 @@ void Car::update() {
 }
 
 void Car::run(float s1, float s2) {
-  if (s1 >= 0) {
+  if (s1 > 0) {
     m1.run(FORWARD);
     m1.setSpeed(min(s1, 255));
   }
-  else {
+  else if (s1 < 0) {
     m1.run(BACKWARD);
     m1.setSpeed(min(-s1, 255));
   }
+  else {
+    m1.run(RELEASE);
+    m1.setSpeed(0);
+  }
 
-  if (s2 >= 0) {
+  if (s2 > 0) {
     m2.run(FORWARD);
     m2.setSpeed(min(s2, 255));
   }
-  else {
+  else if (s2 < 0) {
     m2.run(BACKWARD);
     m2.setSpeed(min(-s2, 255));
+  }
+  else {
+    m2.run(RELEASE);
+    m2.setSpeed(0);
   }
 }
 
