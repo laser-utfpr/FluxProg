@@ -13,20 +13,19 @@ void setup() {
 }
 
 void loop() {
-  car.update();
   delay(20);
+  car.update(bt);
 
   while (bt.available()) {
     char c = bt.read();
-    bt.write(c);
 
-    if (c == 'S') {
+    if (c == 'S' || c == 's') {
       car.setState(CarState::FollowLine);
     }
-    else if (c == 'P') {
+    else if (c == 'P' || c == 'p') {
       car.setState(CarState::Stop);
     }
-    else if (c == 8) {
+    else if (c == 'f' || c == 8) {
       car.setState(CarState::Forward);
     }
     else if (c == 4) {
@@ -35,12 +34,5 @@ void loop() {
     else if (c == 6) {
       car.setState(CarState::Right);
     }
-  }
-
-  // TODO: SEND SENSOR INFORMATION
-
-  while (Serial.available()) {
-    char c = Serial.read();
-    Serial.print("ECHO CARRINHO: "); Serial.println(c);
   }
 }

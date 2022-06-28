@@ -37,6 +37,7 @@ void MotorController::update() {
   }
 
   speed = get_speed();
+  Serial.println(speed);
   err = target - speed;
 
   motor_power += err * kp + kd * (err - last_err);

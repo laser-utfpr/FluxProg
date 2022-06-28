@@ -30,6 +30,7 @@ public:
     
   void run(int dir);
   void setSpeed(float speed);
+  inline float getSpeed() { return speed; }
   void update();
 };
 

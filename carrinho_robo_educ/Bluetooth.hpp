@@ -9,6 +9,7 @@ enum class Command {
 
 class Bluetooth {
 public:
+  char packet[15];
   void begin() {
     Serial1.begin(9600);
   }
@@ -18,11 +19,9 @@ public:
   int read() {
     return Serial1.read();
   }
-  void write(char c) {
-    Serial1.write(c);
-  }
-  void print(String s) {
-    Serial1.print(s); 
+  void write_packet() {
+    Serial1.write(packet, 15);
+    Serial1.flush();
   }
 };
 

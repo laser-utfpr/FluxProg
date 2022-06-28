@@ -8,7 +8,21 @@ void Car::begin(void (*increment1)(), void (*increment2)()) {
   ir.begin();
 }
 
-void Car::update() {
+void Car::read_sensors(char packet[15]) {
+  int i = 0;
+  char has_obstacle = ultrasonic.convert(ultrasonic.timing(), Ultrasonic::CM) < 20? 0: 0xFF;
+  while (i++ < 5) {
+    packet[i] = ir.read(i);
+  }
+  while (i++ < 15) {
+    packet[i] = 0;
+  }
+  packet[9] = has_obstacle;
+  packet[10] = has_obstacle;
+}
+
+
+void Car::update(Bluetooth& bt) {
   stime += 1;
 
   m1.update();
@@ -26,16 +40,22 @@ void Car::update() {
     run(0, 0);
     break;
   case CarState::Forward:
-    inverse_kinematics(40, 0);
-    if (stime > 100) { setState(CarState::Stop); }
+    inverse_kinematics(20, 0);
+    if (stime > 100) {
+      setState(CarState::Stop);
+    }
     break;
   case CarState::Left:
     inverse_kinematics(0, 10);
-    if (stime > 17) { setState(CarState::Stop); }
+    if (stime > 17) {
+      setState(CarState::Stop);
+    }
     break;
   case CarState::Right:
     inverse_kinematics(0, -10);
-    if (stime > 17) { setState(CarState::Stop); }
+    if (stime > 17) {
+      setState(CarState::Stop);
+    }
     break;
   }
 }
