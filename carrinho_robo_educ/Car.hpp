@@ -29,7 +29,7 @@ class Car {
   static constexpr float kd = 0;
 public:
   void begin(void (*increment1)(), void (*increment2)());
-  void update(Bluetooth& bt);
+  void update();
 
   void read_sensors(char packet[15]);
 

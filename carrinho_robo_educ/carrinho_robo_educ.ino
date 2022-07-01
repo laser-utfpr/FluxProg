@@ -14,7 +14,7 @@ void setup() {
 
 void loop() {
   delay(20);
-  car.update(bt);
+  car.update();
 
   while (bt.available()) {
     char c = bt.read();

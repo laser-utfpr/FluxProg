@@ -22,7 +22,7 @@ void Car::read_sensors(char packet[15]) {
 }
 
 
-void Car::update(Bluetooth& bt) {
+void Car::update() {
   stime += 1;
 
   m1.update();
