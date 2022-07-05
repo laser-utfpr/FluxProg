@@ -2,12 +2,6 @@
 #include "Config.hpp"
 #include <Arduino.h>
 
-void Car::begin(void (*increment1)(), void (*increment2)()) {
-  attachInterrupt(digitalPinToInterrupt(20), increment1, FALLING);
-  attachInterrupt(digitalPinToInterrupt(21), increment2, FALLING);
-  ir.begin();
-}
-
 void Car::read_sensors(char packet[15]) {
   int i = 0;
   char has_obstacle = ultrasonic.convert(ultrasonic.timing(), Ultrasonic::CM) < 20? 0: 0xFF;
@@ -91,5 +85,6 @@ void Car::run(float s1, float s2) {
 void Car::inverse_kinematics (float vx, float omega) {
   float forward = vx / Rodas::r;
   float angular = omega * Rodas::L / Rodas::r;
+
   run(forward - angular, forward + angular);
 }

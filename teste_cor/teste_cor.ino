@@ -1,5 +1,21 @@
 #include <TimerOne.h>
 
+/* SensorCor
+ *  - Cores de ref (4 cores)
+ *  - Valor atual
+ *  - contador e seletor
+ *  - Pinos (5 entrada + 1 saida)
+ *  - selCor(): seleciona filtro de cor
+ *  + intPin(): para ser chamado na interrupcao do pino
+ *  + intTimer(): para ser chamado na interrupcao do timer
+ *  + begin(): inicializa timer e interrupcoes
+ *  + getCor(): retorna codigo da cor de ref mais prox
+ *
+ * Cor
+ *  + Leituras, rgbw, codigo
+ *  + distancia euclidiana
+ */
+
 const int s[] = { 52, 50, 48, 46 };
 const int oe = 44;
 const int out = 21;
