@@ -12,4 +12,8 @@ namespace Rodas {
   const float L = 13; // cm, largura do eixo
 };
 
+namespace Sensores {
+  const int n_infrared = 4;
+};
+
 #endif

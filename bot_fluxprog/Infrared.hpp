@@ -2,9 +2,10 @@
 #define INFRARED_HPP
 
 #include <Arduino.h>
+#include "Config.hpp"
 
 class Infrared {
-  static const int pin_ir[4];
+  static const int pin_ir[Sensores::n_infrared];
   static int error_table[16];
 public:
   void begin();

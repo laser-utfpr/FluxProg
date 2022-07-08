@@ -2,19 +2,22 @@
 #include "Config.hpp"
 #include <Arduino.h>
 
-void Car::read_sensors(char packet[15]) {
+void Car::read_sensors(char packet[64]) {
   int i = 0;
-  char has_obstacle = ultrasonic.convert(ultrasonic.timing(), Ultrasonic::CM) < 20? 0: 0xFF;
-  while (i++ < 5) {
-    packet[i] = ir.read(i);
-  }
-  while (i++ < 15) {
-    packet[i] = 0;
-  }
-  packet[9] = has_obstacle;
-  packet[10] = has_obstacle;
-}
+  packet[i++] = '<';
 
+  for (int j = 0; j < Sensores::n_infrared; ++j) {
+    const int has_tape = ir.read(j) != 0;
+    packet[i++] = has_tape;
+  }
+
+  const char has_obstacle = ultrasonic.convert(ultrasonic.timing(), Ultrasonic::CM) < 21;
+  packet[i++] = has_obstacle;
+
+  packet[i++] = '>';
+  Serial3.write(packet, i);
+  Serial3.flush();
+}
 
 void Car::update() {
   stime += 1;
@@ -36,18 +39,24 @@ void Car::update() {
   case CarState::Forward:
     inverse_kinematics(20, 0);
     if (stime > 100) {
+      char p[64]; read_sensors(p);
+
       setState(CarState::Stop);
     }
     break;
   case CarState::Left:
     inverse_kinematics(0, 10);
     if (stime > 17) {
+      char p[64]; read_sensors(p);
+
       setState(CarState::Stop);
     }
     break;
   case CarState::Right:
     inverse_kinematics(0, -10);
     if (stime > 17) {
+      char p[64]; read_sensors(p);
+
       setState(CarState::Stop);
     }
     break;

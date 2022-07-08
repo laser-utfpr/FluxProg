@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 int Infrared::error_table[16];
-const int Infrared::pin_ir[4] = { 45, 47, 49, 51 };
+const int Infrared::pin_ir[] = { 45, 47, 49, 51 };
 
 void Infrared::begin() {
   error_table[0b0110] = 0;
@@ -18,7 +18,7 @@ void Infrared::begin() {
 
 int Infrared::read_error() {
   int j = 0;
-  for (int i = 0; i < 4; ++i) {
+  for (int i = 0; i < Sensores::n_infrared; ++i) {
     j <<= 1;
     j |= digitalRead(pin_ir[i]);
   }
@@ -27,6 +27,6 @@ int Infrared::read_error() {
 }
 
 int Infrared::read(int i) {
-  if (i > 3 || i < 0) { return 0; }
+  if (i >= Sensores::n_infrared || i < 0) { return 0; }
   return digitalRead(pin_ir[i]);
 }

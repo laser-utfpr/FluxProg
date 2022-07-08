@@ -46,6 +46,8 @@ void loop() {
 
   while (bt.available()) {
     char c = bt.read();
+    Serial.print("Recebido: ");
+    Serial.println(c);
 
     if (c == 'S' || c == 's') {
       car.setState(CarState::FollowLine);
