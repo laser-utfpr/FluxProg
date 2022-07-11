@@ -66,6 +66,7 @@ void loop() {
     }
     else if (c == 'c') {
       cs1.getRawColor().print(Serial3);
+      cs2.getRawColor().print(Serial3);
       Serial3.println();
     }
   }

@@ -14,6 +14,8 @@ void Car::read_sensors(char packet[64]) {
   const char has_obstacle = ultrasonic.convert(ultrasonic.timing(), Ultrasonic::CM) < 21;
   packet[i++] = has_obstacle;
 
+  packet[i++] = cs1.isGreen();
+  packet[i++] = cs2.isGreen();
   packet[i++] = '>';
   Serial3.write(packet, i);
   Serial3.flush();

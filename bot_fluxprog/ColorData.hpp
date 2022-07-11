@@ -13,7 +13,7 @@ inline int lsb(ColorSelector c) { return static_cast<char>(c) & 0x01; }
 inline int msb(ColorSelector c) { return (static_cast<char>(c) & 0x02) >> 1; }
 
 struct Color {
-  int r, b, w, g;  
+  int r, g, b, w;
 
   int& operator[](ColorSelector sel) {
     switch (sel) {
@@ -24,7 +24,7 @@ struct Color {
     }
   }
 
-  void print(HardwareSerial& serial) {
+  void print(HardwareSerial& serial = Serial) {
     serial.print('{');
     serial.print(r); serial.print(", ");
     serial.print(g); serial.print(", ");
@@ -32,6 +32,10 @@ struct Color {
     serial.print(w); serial.print('}');
   };
 };
+
+inline bool operator==(const Color& a, const Color& b) {
+  return a.r == b.r && a.g == b.g && a.b == b.b && a.w == b.w;
+}
 
 inline unsigned long euc_dist(Color& a, Color& b) {
   unsigned long dr = a.r - b.r;

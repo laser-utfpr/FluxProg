@@ -41,12 +41,14 @@ public:
     return green;
   }
 
+  bool isGreen() { return getColor() == green; }
+
   Color getRawColor() { return value; }
   
 private:
-  Color black;
-  Color white;
-  Color green;
+  Color black{8, 22, 8, 8};
+  Color white{60, 200, 65, 70};
+  Color green{25, 70, 20, 20};
   Color value;
 
   const int s0, s1, s2, s3;
