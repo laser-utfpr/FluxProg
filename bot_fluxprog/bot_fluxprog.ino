@@ -1,7 +1,6 @@
 #include <TimerOne.h>
 
 #include "Car.hpp"
-#include "Bluetooth.hpp"
 #include "ColorSensor.hpp"
 
 MotorController m1(1);
@@ -11,8 +10,8 @@ Ultrasonic us(33, 31);
 ColorSensor cs1(40, 38, 36, 34, 42, 18);
 ColorSensor cs2(50, 48, 46, 44, 52, 19);
 
-Car car(m1, m2, ir, us, cs1, cs1);
-Bluetooth bt(Serial3);
+HardwareSerial fluxprog(Serial3);
+Car car(m1, m2, ir, us, cs1, cs1, fluxprog);
 
 void inc_m1() { m1.increment(); }
 void inc_m2() { m2.increment(); }
@@ -22,6 +21,7 @@ void int_timer() { cs1.intTimer(); cs2.intTimer(); };
 
 void setup() {
   Serial.begin(9600);
+  fluxprog.begin(9600);
 
   // Encoders
   attachInterrupt(digitalPinToInterrupt(20), inc_m1, FALLING);
@@ -34,18 +34,17 @@ void setup() {
   cs2.begin();
   attachInterrupt(digitalPinToInterrupt(cs2.out_pin()), inc_cs2, CHANGE);
   
-  //Timer1.setPeriod(int(0.25e6));
+  // NAO Timer1.setPeriod(int(0.25e6));
+  // O timer jah eh configurado pelo pwm dos motores
   Timer1.attachInterrupt(int_timer);
-  
-  bt.begin();
 }
 
 void loop() {
   delay(20);
   car.update();
 
-  while (bt.available()) {
-    char c = bt.read();
+  while (fluxprog.available()) {
+    char c = fluxprog.read();
     Serial.print("Recebido: ");
     Serial.println(c);
 
@@ -65,9 +64,10 @@ void loop() {
       car.setState(CarState::Right);
     }
     else if (c == 'c') {
-      cs1.getRawColor().print(Serial3);
-      cs2.getRawColor().print(Serial3);
-      Serial3.println();
+      cs1.getRawColor().print(fluxprog);
+      fluxprog.print(' ');
+      cs2.getRawColor().print(fluxprog);
+      fluxprog.println();
     }
   }
 }

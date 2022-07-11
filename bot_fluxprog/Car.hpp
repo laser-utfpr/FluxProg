@@ -4,7 +4,6 @@
 #include <Ultrasonic.h>
 #include "MotorController.hpp"
 #include "Infrared.hpp"
-#include "Bluetooth.hpp"
 #include "ColorSensor.hpp"
 
 enum class CarState {
@@ -18,6 +17,9 @@ enum class CarState {
 class Car {
   CarState state;
   unsigned long stime;
+
+  Stream& fluxprog;
+  char packet[64];
   
   MotorController& m1;
   MotorController& m2;
@@ -32,11 +34,11 @@ class Car {
   static constexpr float kp = 2;
   static constexpr float kd = 0;
 public:
-  Car(MotorController& m1, MotorController& m2, Infrared& ir, Ultrasonic& ultrasonic, ColorSensor& cs1, ColorSensor& cs2)
-  :m1(m1), m2(m2), ir(ir), ultrasonic(ultrasonic), cs1(cs1), cs2(cs2) { }
+  Car(MotorController& m1, MotorController& m2, Infrared& ir, Ultrasonic& u, ColorSensor& cs1, ColorSensor& cs2, Stream& s)
+  :m1(m1), m2(m2), ir(ir), ultrasonic(u), cs1(cs1), cs2(cs2), fluxprog(s) { }
   void update();
 
-  void read_sensors(char packet[15]);
+  void send_sensors();
   void setState(CarState st) { state = st; stime = 0; }
   
   void run(float s1, float s2);

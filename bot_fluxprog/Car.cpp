@@ -2,7 +2,7 @@
 #include "Config.hpp"
 #include <Arduino.h>
 
-void Car::read_sensors(char packet[64]) {
+void Car::send_sensors() {
   int i = 0;
   packet[i++] = '<';
 
@@ -17,8 +17,9 @@ void Car::read_sensors(char packet[64]) {
   packet[i++] = cs1.isGreen();
   packet[i++] = cs2.isGreen();
   packet[i++] = '>';
-  Serial3.write(packet, i);
-  Serial3.flush();
+
+  fluxprog.write(packet, i);
+  fluxprog.flush();
 }
 
 void Car::update() {
@@ -41,24 +42,21 @@ void Car::update() {
   case CarState::Forward:
     inverse_kinematics(20, 0);
     if (stime > 100) {
-      char p[64]; read_sensors(p);
-
+      send_sensors();
       setState(CarState::Stop);
     }
     break;
   case CarState::Left:
     inverse_kinematics(0, 10);
     if (stime > 17) {
-      char p[64]; read_sensors(p);
-
+      send_sensors();
       setState(CarState::Stop);
     }
     break;
   case CarState::Right:
     inverse_kinematics(0, -10);
     if (stime > 17) {
-      char p[64]; read_sensors(p);
-
+      send_sensors();
       setState(CarState::Stop);
     }
     break;
