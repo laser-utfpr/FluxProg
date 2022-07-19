@@ -46,9 +46,9 @@ public:
   Color getRawColor() { return value; }
   
 private:
-  Color black{8, 22, 8, 8};
-  Color white{60, 200, 65, 70};
-  Color green{25, 70, 20, 20};
+  Color black{20, 50, 10, 20};
+  Color white{72, 220, 75, 85};
+  Color green{40, 130, 40, 50};
   Color value;
 
   const int s0, s1, s2, s3;

@@ -9,7 +9,9 @@ class Infrared {
   static int error_table[16];
 public:
   void begin();
+  int read();
   int read_error();
+  bool is_intersection();
   int read(int i);
 };
 

@@ -10,7 +10,7 @@ Ultrasonic us(33, 31);
 ColorSensor cs1(40, 38, 36, 34, 42, 18);
 ColorSensor cs2(50, 48, 46, 44, 52, 19);
 
-HardwareSerial fluxprog(Serial3);
+HardwareSerial& fluxprog(Serial3);
 Car car(m1, m2, ir, us, cs1, cs1, fluxprog);
 
 void inc_m1() { m1.increment(); }
@@ -48,25 +48,27 @@ void loop() {
     Serial.print("Recebido: ");
     Serial.println(c);
 
-    if (c == 'S' || c == 's') {
+    if (c == 's') {
       car.setState(CarState::FollowLine);
     }
-    else if (c == 'P' || c == 'p') {
+    else if (c == 'p') {
       car.setState(CarState::Stop);
     }
     else if (c == 'f' || c == 8) {
       car.setState(CarState::Forward);
     }
-    else if (c == 4) {
+    else if (c == 'l' || c == 4) {
       car.setState(CarState::Left);
     }
-    else if (c == 6) {
+    else if (c == 'r' || c == 6) {
       car.setState(CarState::Right);
     }
     else if (c == 'c') {
       cs1.getRawColor().print(fluxprog);
+      fluxprog.print(cs1.isGreen());
       fluxprog.print(' ');
       cs2.getRawColor().print(fluxprog);
+      fluxprog.print(cs2.isGreen());
       fluxprog.println();
     }
   }

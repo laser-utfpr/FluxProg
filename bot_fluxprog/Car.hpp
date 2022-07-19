@@ -17,6 +17,7 @@ enum class CarState {
 class Car {
   CarState state;
   unsigned long stime;
+  unsigned long ss;
 
   Stream& fluxprog;
   char packet[64];
@@ -31,7 +32,7 @@ class Car {
   unsigned long last_update = 0;
   int last_err = 0;
 
-  static constexpr float kp = 2;
+  static constexpr float kp = .8;
   static constexpr float kd = 0;
 public:
   Car(MotorController& m1, MotorController& m2, Infrared& ir, Ultrasonic& u, ColorSensor& cs1, ColorSensor& cs2, Stream& s)
@@ -39,7 +40,7 @@ public:
   void update();
 
   void send_sensors();
-  void setState(CarState st) { state = st; stime = 0; }
+  void setState(CarState st) { state = st; stime = 0; ss = 0; }
   
   void run(float s1, float s2);
   void inverse_kinematics(float vx, float omega);

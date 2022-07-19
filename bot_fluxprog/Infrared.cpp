@@ -16,14 +16,22 @@ void Infrared::begin() {
   }
 }
 
-int Infrared::read_error() {
+int Infrared::read() {
   int j = 0;
   for (int i = 0; i < Sensores::n_infrared; ++i) {
     j <<= 1;
     j |= digitalRead(pin_ir[i]);
   }
   // j = ir0 ir1 ir2 ir3
-  return error_table[j];
+  return j;
+}
+
+int Infrared::read_error() {
+  return error_table[read()];
+}
+
+bool Infrared::is_intersection() {
+  return read() == ((1 << Sensores::n_infrared) - 1);
 }
 
 int Infrared::read(int i) {
