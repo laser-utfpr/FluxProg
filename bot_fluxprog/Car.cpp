@@ -6,7 +6,7 @@ void Car::send_sensors() {
   int i = 0;
   packet[i++] = '<';
 
-  for (int j = 0; j < Sensores::n_infrared; ++j) {
+  for (int j = 1 << (Sensores::n_infrared-1); j > 0; j >>= 1) {
     const int has_tape = ir.read(j) != 0;
     packet[i++] = has_tape;
   }
@@ -58,15 +58,13 @@ void Car::update() {
     break;
   case CarState::Left:
     run(-5, 5);
-    substate = ir.read();
-    if (substate == 0b1000) {
+    if (ir.falling(0b1000)) {
       setState(CarState::Stop);
     }
     break;
   case CarState::Right:
     run(5, -5);
-    substate = ir.read();
-    if (substate == 0b1000) {
+    if (ir.falling(0b0001)) {
       setState(CarState::Stop);
     }
     break;

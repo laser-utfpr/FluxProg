@@ -24,22 +24,3 @@ void Infrared::update() {
     value |= digitalRead(pin_ir[i]);
   }
 }
-
-int Infrared::read() {
-  return value;
-}
-
-int Infrared::read_error() {
-  return error_table[value];
-}
-
-bool Infrared::passed_intersection() {
-  const bool was_last = last_value & 0b1001 == 0b1001;
-  const bool is_now = value & 0b1001 != 0b0000;
-  return was_last && !is_now;
-}
-
-int Infrared::read(int i) {
-  if (i >= Sensores::n_infrared || i < 0) { return 0; }
-  return digitalRead(pin_ir[i]);
-}
