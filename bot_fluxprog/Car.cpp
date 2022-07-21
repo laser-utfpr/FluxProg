@@ -27,10 +27,11 @@ void Car::update() {
 
   m1.update();
   m2.update();
+  ir.update();
 
   switch (state) {
   case CarState::FollowLine: {
-    if (ir.is_intersection()) {
+    if (ir.passed_intersection()) {
       setState(CarState::Stop);
       m1.setSpeed(0);
       m2.setSpeed(0);
@@ -38,32 +39,34 @@ void Car::update() {
     else {
       int err = ir.read_error();
       float s = err*kp + (err-last_err)*kd;
-      inverse_kinematics(7, -s);
+      inverse_kinematics(5, -s);
       last_err = err;
     }
     break;
   }
   case CarState::Stop:
     run(0, 0);
+    if (stime == 50) {
+      send_sensors();
+    }
     break;
   case CarState::Forward:
     inverse_kinematics(10, 0);
     if (stime > 100) {
-      send_sensors();
       setState(CarState::Stop);
     }
     break;
   case CarState::Left:
-    run(0, 8);
-    if (stime > 17 || ir.read() == 0b0100) {
-      send_sensors();
+    run(-5, 5);
+    substate = ir.read();
+    if (substate == 0b1000) {
       setState(CarState::Stop);
     }
     break;
   case CarState::Right:
-    run(8, 0);
-    if (stime > 17 || ir.read() == 0b0010) {
-      send_sensors();
+    run(5, -5);
+    substate = ir.read();
+    if (substate == 0b1000) {
       setState(CarState::Stop);
     }
     break;

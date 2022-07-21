@@ -7,11 +7,14 @@
 class Infrared {
   static const int pin_ir[Sensores::n_infrared];
   static int error_table[16];
+  int last_value;
+  int value;
 public:
   void begin();
+  void update();
   int read();
   int read_error();
-  bool is_intersection();
+  bool passed_intersection();
   int read(int i);
 };
 

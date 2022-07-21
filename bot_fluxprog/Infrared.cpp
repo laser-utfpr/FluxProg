@@ -16,22 +16,27 @@ void Infrared::begin() {
   }
 }
 
-int Infrared::read() {
-  int j = 0;
+void Infrared::update() {
+  last_value = value;
+  value = 0;
   for (int i = 0; i < Sensores::n_infrared; ++i) {
-    j <<= 1;
-    j |= digitalRead(pin_ir[i]);
+    value <<= 1;
+    value |= digitalRead(pin_ir[i]);
   }
-  // j = ir0 ir1 ir2 ir3
-  return j;
+}
+
+int Infrared::read() {
+  return value;
 }
 
 int Infrared::read_error() {
-  return error_table[read()];
+  return error_table[value];
 }
 
-bool Infrared::is_intersection() {
-  return read() == ((1 << Sensores::n_infrared) - 1);
+bool Infrared::passed_intersection() {
+  const bool was_last = last_value & 0b1001 == 0b1001;
+  const bool is_now = value & 0b1001 != 0b0000;
+  return was_last && !is_now;
 }
 
 int Infrared::read(int i) {
