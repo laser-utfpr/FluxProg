@@ -40,7 +40,7 @@ void MotorController::update() {
   err = target - speed;
 
   motor_power += err * kp + kd * (err - last_err);
-  motor_power = min(255, max(motor_power, 0));
+  motor_power = min(255, max(motor_power, 180));
   motor.setSpeed(motor_power);
   last_err = err;
 

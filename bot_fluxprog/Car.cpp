@@ -33,8 +33,6 @@ void Car::update() {
   case CarState::FollowLine: {
     if (ir.passed_intersection()) {
       setState(CarState::Stop);
-      m1.setSpeed(0);
-      m2.setSpeed(0);
     }
     else {
       int err = ir.read_error();
@@ -46,7 +44,7 @@ void Car::update() {
   }
   case CarState::Stop:
     run(0, 0);
-    if (stime == 50) {
+    if (stime == 80) {
       send_sensors();
     }
     break;
@@ -72,26 +70,27 @@ void Car::update() {
 }
 
 void Car::run(float s1, float s2) {
-  if (s1 > 0) {
+  const float eps = 0.0001;
+  if (s1 > eps) {
     m1.run(FORWARD);
-    m1.setSpeed(min(s1, 255));
+    m1.setSpeed(s1);
   }
-  else if (s1 < 0) {
+  else if (s1 < -eps) {
     m1.run(BACKWARD);
-    m1.setSpeed(min(-s1, 255));
+    m1.setSpeed(-s1);
   }
   else {
     m1.run(RELEASE);
     m1.setSpeed(0);
   }
 
-  if (s2 > 0) {
+  if (s2 > eps) {
     m2.run(FORWARD);
-    m2.setSpeed(min(s2, 255));
+    m2.setSpeed(s2);
   }
-  else if (s2 < 0) {
+  else if (s2 < -eps) {
     m2.run(BACKWARD);
-    m2.setSpeed(min(-s2, 255));
+    m2.setSpeed(-s2);
   }
   else {
     m2.run(RELEASE);
