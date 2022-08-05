@@ -13,7 +13,7 @@ if [ ! -d "$BACK_END_PATH" ]; then
     cd ../FluxProgBackend && mkdir build
     cd build  &&  cmake .. && make
 else
-    cmake --build ../FluxProgBackend/build/
+    cmake --build ../FluxProgBackend/build/ $@
 fi
 
 cd "$SCRIPTPATH"
@@ -23,7 +23,7 @@ if [ ! -d "$FRONT_END_PATH" ]; then
     mkdir build
     cd build  &&  cmake .. && make
 else
-    cmake --build ./build
+    cmake --build ./build $@
 fi
 
 #execute
