@@ -220,19 +220,19 @@ int Block :: getID() {
 int Block :: setFirstSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL) {
     return 0;
 }
-int Block :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL, int value = 0) {
+int Block :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false) {
     return 0;
 }
 int Block :: setFirstSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL){
     return 0;
 }
-int Block :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int Block :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     return 0;
 }
 int Block :: setThirdSlotMath(int n = 0, int value = 0){
     return 0;
 }
-int Block :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int Block :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     return 0;
 }
 int Block :: setFirstSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL){
@@ -241,7 +241,7 @@ int Block :: setFirstSlotConditional(int n = 0, int* var_int = NULL, bool* var_b
 int Block :: setSecondSlotConditional(int value = 0){
     return 0;
 }
-int Block :: setThirdSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int Block :: setThirdSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     return 0;
 }
 int Block :: setFirstSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL){
@@ -250,7 +250,7 @@ int Block :: setFirstSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = 
 int Block :: setSecondSlotWhile(int value = 0){
     return 0;
 }
-int Block :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int Block :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     return 0;
 }
 Block* Block :: executeFunction(){
@@ -296,5 +296,20 @@ int Block :: returnLogicSymbol_3(){
     return 0;
 }
 int Block :: returnMathSymbol_3(){
+    return 0;
+}
+int Block :: returnStaticBoolValue_2(){
+    return 0;
+}
+int Block :: returnStaticBoolValue_3(){
+    return 0;
+}
+int Block :: returnStaticBoolValue_4(){
+    return 0;
+}
+int Block :: setSensorReading(int value){
+    return 0;
+}
+int Block :: returnSensorValue(){
     return 0;
 }

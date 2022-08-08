@@ -12,21 +12,25 @@ NewConditionalBlock :: NewConditionalBlock() {
     next_false = NULL;
     previous = NULL;
     type_of_sensor = 0;
-    
+
     value_1_alt = 999;
+    value_1_bool = false;
     value_3_alt = 999;
+    value_3_bool = false;
 
     is_1_int = false;
     is_1_value = false;
     is_1_bool = false;
     bool_1_var = NULL;
     int_1_var = NULL;
+    is_1_static_bool = false;
 
     is_3_int = false;
     is_3_value = false;
     is_3_bool = false;
     bool_3_var = NULL;
     int_3_var = NULL;
+    is_3_static_bool = false;
 
     logic_2_value = 999;
 }
@@ -148,7 +152,7 @@ int NewConditionalBlock :: setSecondSlotConditional(int value = 0){
     logic_2_value = value;
     return 0;
 }
-int NewConditionalBlock :: setThirdSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int NewConditionalBlock :: setThirdSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     if(n == 1){
         cout<<"Slot 3 do bloco de conditional - int: "<<*var_int<<endl;
         is_3_int = true;
@@ -156,6 +160,8 @@ int NewConditionalBlock :: setThirdSlotConditional(int n = 0, int* var_int = NUL
         is_3_bool = false;
         is_3_value = false;
         value_3_alt = 999;
+        is_3_static_bool = false;
+        value_3_bool = false;
         return 0;
     }
     if(n == 2){
@@ -165,6 +171,8 @@ int NewConditionalBlock :: setThirdSlotConditional(int n = 0, int* var_int = NUL
         is_3_int = false;
         is_3_value = false;
         value_3_alt = 999;
+        is_3_static_bool = false;
+        value_3_bool = false;
         return 0;
     }
     if(n == 3){
@@ -173,6 +181,18 @@ int NewConditionalBlock :: setThirdSlotConditional(int n = 0, int* var_int = NUL
         value_3_alt = value;
         is_3_int = false;
         is_3_bool = false;
+        is_3_static_bool = false;
+        value_3_bool = false;
+        return 0;
+    }
+    if(n == 4){
+        cout<<"Slot 3 do bloco de conditional - estatico bool: "<<value<<endl;
+        is_3_value = false;
+        value_3_alt = 999;
+        is_3_int = false;
+        is_3_bool = false;
+        is_3_static_bool = true;
+        value_3_bool = bool_value;
         return 0;
     }
     return 0;
@@ -243,6 +263,30 @@ Block* NewConditionalBlock :: executeFunction(){
                     return next_true;
                 }
                 else if(value_3_alt < 1 && *bool_1_var == false){
+                    return next_true;
+                }
+                else{
+                    return next_false;
+                }
+                return next_false;
+            }
+            return next_false;
+        }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                if(*int_1_var >= 1 && value_3_bool == true){
+                    return next_true;
+                }
+                else if(*int_1_var < 1 && value_3_bool == false){
+                    return next_true;
+                }
+                else{
+                    return next_false;
+                }
+                return next_false;
+            }
+            if(is_1_bool == true){
+                if(value_3_bool == *bool_1_var){
                     return next_true;
                 }
                 else{
@@ -327,6 +371,30 @@ Block* NewConditionalBlock :: executeFunction(){
             }
             return next_false;
         }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                if(*int_1_var >= 1 && value_3_bool == true){
+                    return next_false;
+                }
+                else if(*int_1_var < 1 && value_3_bool == false){
+                    return next_false;
+                }
+                else{
+                    return next_true;
+                }
+                return next_false;
+            }
+            if(is_1_bool == true){
+                if(value_3_bool == *bool_1_var){
+                    return next_false;
+                }
+                else{
+                    return next_true;
+                }
+                return next_false;
+            }
+            return next_false;
+        }
     }
     //maior
     if(logic_2_value == 2){
@@ -362,6 +430,15 @@ Block* NewConditionalBlock :: executeFunction(){
                 else{
                     return next_false;
                 }
+                return next_false;
+            }
+            if(is_1_bool == true){
+                return next_false;
+            }
+            return next_false;
+        }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
                 return next_false;
             }
             if(is_1_bool == true){
@@ -411,6 +488,15 @@ Block* NewConditionalBlock :: executeFunction(){
             }
             return next_false;
         }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                return next_false;
+            }
+            if(is_1_bool == true){
+                return next_false;
+            }
+            return next_false;
+        }
     }
     if(logic_2_value == 4){
         if(is_3_int == true){
@@ -452,6 +538,15 @@ Block* NewConditionalBlock :: executeFunction(){
             }
             return next_false;
         }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                return next_false;
+            }
+            if(is_1_bool == true){
+                return next_false;
+            }
+            return next_false;
+        }
     }
     if(logic_2_value == 5){
         if(is_3_int == true){
@@ -486,6 +581,15 @@ Block* NewConditionalBlock :: executeFunction(){
                 else{
                     return next_false;
                 }
+                return next_false;
+            }
+            if(is_1_bool == true){
+                return next_false;
+            }
+            return next_false;
+        }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
                 return next_false;
             }
             if(is_1_bool == true){
@@ -538,4 +642,17 @@ int NewConditionalBlock :: returnStaticValue_3(){
 }
 int NewConditionalBlock :: returnLogicSymbol_2(){
         return logic_2_value;
+}
+int NewConditionalBlock :: returnStaticBoolValue_3(){
+    if(is_3_static_bool == true){
+        if(value_3_bool == true){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else{
+        return 999;
+    }
 }

@@ -14,6 +14,7 @@ WhileBlock :: WhileBlock() {
 
     value_1_alt = 999;
     value_3_alt = 999;
+    value_3_bool = false;
 
     is_1_int = false;
     is_1_value = false;
@@ -26,6 +27,7 @@ WhileBlock :: WhileBlock() {
     is_3_bool = false;
     bool_3_var = NULL;
     int_3_var = NULL;
+    is_3_static_bool = false;
 
     logic_2_value = 999;
 }
@@ -167,7 +169,7 @@ int WhileBlock :: setSecondSlotWhile(int value = 0){
     logic_2_value = value;
     return 0;
 }
-int WhileBlock :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int WhileBlock :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     if(n == 1){
         cout<<"Slot 3 do bloco de while - int: "<<*var_int<<endl;
         is_3_int = true;
@@ -175,6 +177,8 @@ int WhileBlock :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bo
         is_3_bool = false;
         is_3_value = false;
         value_3_alt = 999;
+        is_3_static_bool = false;
+        value_3_bool = false;
         return 0;
     }
     if(n == 2){
@@ -184,6 +188,8 @@ int WhileBlock :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bo
         is_3_int = false;
         is_3_value = false;
         value_3_alt = 999;
+        is_3_static_bool = false;
+        value_3_bool = false;
         return 0;
     }
     if(n == 3){
@@ -192,6 +198,18 @@ int WhileBlock :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bo
         value_3_alt = value;
         is_3_int = false;
         is_3_bool = false;
+        is_3_static_bool = false;
+        value_3_bool = false;
+        return 0;
+    }
+    if(n == 4){
+        cout<<"Slot 3 do bloco de while - estatico bool: "<<value<<endl;
+        is_3_value = false;
+        value_3_alt = 999;
+        is_3_int = false;
+        is_3_bool = false;
+        is_3_static_bool = true;
+        value_3_bool = bool_value;
         return 0;
     }
     return 0;
@@ -262,6 +280,30 @@ Block* WhileBlock :: executeFunction(){
                     return next_loop;
                 }
                 else if(value_3_alt < 1 && *bool_1_var == false){
+                    return next_loop;
+                }
+                else{
+                    return next_program;
+                }
+                return next_program;
+            }
+            return next_program;
+        }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                if(*int_1_var >= 1 && value_3_bool == true){
+                    return next_loop;
+                }
+                else if(*int_1_var < 1 && value_3_bool == false){
+                    return next_loop;
+                }
+                else{
+                    return next_program;
+                }
+                return next_program;
+            }
+            if(is_1_bool == true){
+                if(value_3_bool == *bool_1_var){
                     return next_loop;
                 }
                 else{
@@ -346,6 +388,30 @@ Block* WhileBlock :: executeFunction(){
             }
             return next_program;
         }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                if(*int_1_var >= 1 && value_3_bool == true){
+                    return next_program;
+                }
+                else if(*int_1_var < 1 && value_3_bool == false){
+                    return next_program;
+                }
+                else{
+                    return next_loop;
+                }
+                return next_program;
+            }
+            if(is_1_bool == true){
+                if(value_3_bool == *bool_1_var){
+                    return next_program;
+                }
+                else{
+                    return next_loop;
+                }
+                return next_program;
+            }
+            return next_program;
+        }
     }
     //maior
     if(logic_2_value == 2){
@@ -381,6 +447,15 @@ Block* WhileBlock :: executeFunction(){
                 else{
                     return next_program;
                 }
+                return next_program;
+            }
+            if(is_1_bool == true){
+                return next_program;
+            }
+            return next_program;
+        }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
                 return next_program;
             }
             if(is_1_bool == true){
@@ -430,6 +505,15 @@ Block* WhileBlock :: executeFunction(){
             }
             return next_program;
         }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                return next_program;
+            }
+            if(is_1_bool == true){
+                return next_program;
+            }
+            return next_program;
+        }
     }
     if(logic_2_value == 4){
         if(is_3_int == true){
@@ -471,6 +555,15 @@ Block* WhileBlock :: executeFunction(){
             }
             return next_program;
         }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
+                return next_program;
+            }
+            if(is_1_bool == true){
+                return next_program;
+            }
+            return next_program;
+        }
     }
     if(logic_2_value == 5){
         if(is_3_int == true){
@@ -505,6 +598,15 @@ Block* WhileBlock :: executeFunction(){
                 else{
                     return next_program;
                 }
+                return next_program;
+            }
+            if(is_1_bool == true){
+                return next_program;
+            }
+            return next_program;
+        }
+        if(is_3_static_bool == true){
+            if(is_1_int == true){
                 return next_program;
             }
             if(is_1_bool == true){
@@ -557,4 +659,17 @@ int WhileBlock :: returnStaticValue_3(){
 }
 int WhileBlock :: returnLogicSymbol_2(){
         return logic_2_value;
+}
+int WhileBlock :: returnStaticBoolValue_3(){
+    if(is_3_static_bool == true){
+        if(value_3_bool == true){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else{
+        return 999;
+    }
 }

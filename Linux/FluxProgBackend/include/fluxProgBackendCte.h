@@ -9,7 +9,7 @@
 #define MEMORY_VISION_SENSOR "reading_VS"
 #define MEMORY_ULTRASONIC_SENSOR "readin_US"
 #define MEMORY_ROBOT_TYPE "robot_type"
-#define MEMORY_COLOR_SENSOR "readin_COLOR" 
+#define MEMORY_COLOR_SENSOR "readin_COLOR"
 
 //variaveis robo
 #define VEL_MOT 4.25 //tecnicamente em rad/s

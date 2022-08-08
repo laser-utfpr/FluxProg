@@ -16,6 +16,8 @@ class MathBlock : public Block {
 
     int value_2_alt;
     int value_4_alt;
+    int value_2_bool;
+    int value_4_bool;
 
     bool is_1_int;
     bool is_1_bool;
@@ -27,6 +29,7 @@ class MathBlock : public Block {
     bool is_2_bool;
     bool* bool_2_var;
     int* int_2_var;
+    bool is_2_static_bool;
 
     bool is_3_logic;
     bool is_3_math;
@@ -38,6 +41,7 @@ class MathBlock : public Block {
     bool is_4_bool;
     bool* bool_4_var;
     int* int_4_var;
+    bool is_4_static_bool;
 
 
 public:
@@ -63,9 +67,9 @@ public:
     Block* getExecutingNext();
 
     int setFirstSlotMath(int n, int* var_int, bool* var_bool);
-    int setSecondSlotMath(int n, int* var_int, bool* var_bool, int value);
+    int setSecondSlotMath(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     int setThirdSlotMath(int n, int value);
-    int setFourthSlotMath(int n, int* var_int, bool* var_bool, int value);
+    int setFourthSlotMath(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     Block* executeFunction();
 
     int* returnIntVar_1();
@@ -76,8 +80,11 @@ public:
     int* returnIntVar_4();
     bool* returnBoolVar_4();
     int returnStaticValue_4();
-    
+
     int returnLogicSymbol_3();
     int returnMathSymbol_3();
+
+    int returnStaticBoolValue_2();
+    int returnStaticBoolValue_4();
 };
 #endif

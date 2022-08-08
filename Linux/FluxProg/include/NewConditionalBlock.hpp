@@ -16,19 +16,23 @@ class NewConditionalBlock : public ProgrammingBlock {
     Block* next_false;
 
     int value_1_alt;
+    int value_1_bool;
     int value_3_alt;
+    int value_3_bool;
 
     bool is_1_int;
     bool is_1_value;
     bool is_1_bool;
     bool* bool_1_var;
     int* int_1_var;
+    bool is_1_static_bool;
 
     bool is_3_int;
     bool is_3_value;
     bool is_3_bool;
     bool* bool_3_var;
     int* int_3_var;
+    bool is_3_static_bool;
 
     int logic_2_value;
 
@@ -67,7 +71,7 @@ public:
 
     int setFirstSlotConditional(int n, int* var_int, bool* var_bool);
     int setSecondSlotConditional(int value);
-    int setThirdSlotConditional(int n, int* var_int, bool* var_bool, int value);
+    int setThirdSlotConditional(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     Block* executeFunction();
 
     int* returnIntVar_1();
@@ -75,7 +79,9 @@ public:
     int* returnIntVar_3();
     bool* returnBoolVar_3();
     int returnStaticValue_3();
-    
+
     int returnLogicSymbol_2();
+
+    int returnStaticBoolValue_3();
 };
 #endif

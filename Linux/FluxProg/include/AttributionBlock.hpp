@@ -11,14 +11,19 @@ class AttributionBlock : public Block {
     Block* previous;
 
     int value_2_alt;
+    bool value_2_bool;
 
     bool is_1_int, is_1_bool;
     bool* bool_1_var;
     int* int_1_var;
 
-    bool is_2_int, is_2_value, is_2_bool;
+    bool is_2_int, is_2_value, is_2_bool, is_2_static_bool;
     bool* bool_2_var;
     int* int_2_var;
+
+    bool is_2_sensor;
+    int value_2_sensor;
+    int sensor_result;
 
     int int_result;
     bool bool_result;
@@ -44,9 +49,9 @@ public:
     int getPointOut2X();
     int getPointOut2Y();
     Block* getExecutingNext();
-    
+
     int setFirstSlotAttr(int n, int* var_int, bool* var_bool);
-    int setSecondSlotAttr(int n, int* var_int, bool* var_bool, int value);
+    int setSecondSlotAttr(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     Block* executeFunction();
 
     int* returnIntVar_1();
@@ -54,5 +59,10 @@ public:
     int* returnIntVar_2();
     bool* returnBoolVar_2();
     int returnStaticValue_2();
+    int returnStaticBoolValue_2();
+
+    int returnSensorValue();
+    int getTypeOfSensor();
+    int setSensorReading(int value);
 };
 #endif

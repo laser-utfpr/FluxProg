@@ -6,12 +6,18 @@ AttributionBlock :: AttributionBlock() {
     previous = NULL;
 
     value_2_alt = 999;
-    
+    value_2_bool = false;
+
     is_2_int = false;
     is_2_value = false;
     is_2_bool = false;
+    is_2_static_bool = false;
     bool_2_var = NULL;
     int_2_var = NULL;
+
+    is_2_sensor = false;
+    value_2_sensor = 999;
+    sensor_result = 999;
 
     is_1_int = false;
     is_1_bool = false;
@@ -99,7 +105,7 @@ int AttributionBlock :: setFirstSlotAttr(int n, int* var_int = NULL, bool* var_b
     }
     return 0;
 }
-int AttributionBlock :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL, int value = 0) {
+int AttributionBlock :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false) {
     //valor do ponteiro/integral no segundo slot;
     if(n == 1){
         cout<<"Slot 2 do bloco de atribuicao - int: "<<*var_int<<endl;
@@ -108,6 +114,10 @@ int AttributionBlock :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_
         is_2_bool = false;
         is_2_value = false;
         value_2_alt = 999;
+        is_2_static_bool = false;
+        is_2_sensor = false;
+        value_2_sensor = 999;
+        sensor_result = 999;
         return 0;
     }
     if(n == 2){
@@ -117,6 +127,10 @@ int AttributionBlock :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_
         is_2_int = false;
         is_2_value = false;
         value_2_alt = 999;
+        is_2_static_bool = false;
+        is_2_sensor = false;
+        value_2_sensor = 999;
+        sensor_result = 999;
         return 0;
     }
     if(n == 3){
@@ -125,6 +139,35 @@ int AttributionBlock :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_
         value_2_alt = value;
         is_2_int = false;
         is_2_bool = false;
+        is_2_static_bool = false;
+        is_2_sensor = false;
+        value_2_sensor = 999;
+        sensor_result = 999;
+        return 0;
+    }
+    if(n == 4){
+        cout<<"Slot 2 do bloco de atribuicao - estatico bool: "<<value<<endl;
+        is_2_value = false;
+        is_2_int = false;
+        is_2_bool = false;
+        value_2_alt = 999;
+        is_2_static_bool = true;
+        value_2_bool = bool_value;
+        is_2_sensor = false;
+        value_2_sensor = 999;
+        sensor_result = 999;
+        return 0;
+    }
+    if(n == 5){
+        cout<<"Slot 2 do bloco de atribuicao - sensor: "<<value<<endl;
+        is_2_value = false;
+        is_2_int = false;
+        is_2_bool = false;
+        value_2_alt = 999;
+        is_2_static_bool = false;
+        value_2_bool = 999;
+        is_2_sensor = true;
+        value_2_sensor = value;
         return 0;
     }
     return 0;
@@ -148,6 +191,24 @@ Block* AttributionBlock :: executeFunction() {
         if(is_2_value == true){
             *int_1_var = value_2_alt;
             return 0;
+        }
+        if(is_2_static_bool == true){
+            if(value_2_bool == true){
+                *int_1_var = 1;
+                return 0;
+            }
+            if(value_2_bool == false){
+                *int_1_var = 0;
+                return 0;
+            }
+        }
+        if(is_2_sensor == true){
+            if(sensor_result != 0){
+                *int_1_var = 1;
+            }
+            else if(sensor_result == 0){
+                *int_1_var = 0;
+            }
         }
     }
     if(is_1_bool == true){
@@ -173,6 +234,18 @@ Block* AttributionBlock :: executeFunction() {
             if(value_2_alt == 0){
                 *bool_1_var = false;
                 return 0;
+            }
+        }
+        if(is_2_static_bool == true){
+            *bool_1_var = value_2_bool;
+            return 0;
+        }
+        if(is_2_sensor == true){
+            if(sensor_result != 0){
+                *bool_1_var = true;
+            }
+            else if(sensor_result == 0){
+                *bool_1_var = false;
             }
         }
     }
@@ -217,4 +290,43 @@ int AttributionBlock :: returnStaticValue_2(){
     else{
         return 999;
     }
+}
+int AttributionBlock :: returnStaticBoolValue_2(){
+    if(is_2_static_bool == true){
+        if(value_2_bool == true){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else{
+        return 999;
+    }
+}
+
+int AttributionBlock :: returnSensorValue(){
+    if(is_2_sensor == true){
+        return value_2_sensor;
+    }
+    else{
+        return 999;
+    }
+}
+
+int AttributionBlock:: getTypeOfSensor(){
+    if (is_2_sensor == true){
+        return value_2_sensor;
+    }
+    else{
+        return 999;
+    }
+}
+
+int AttributionBlock :: setSensorReading(int value){
+    if (is_2_sensor == true){
+        sensor_result = value;
+        return 0;
+    }
+    return 0;
 }

@@ -9,6 +9,8 @@ MathBlock :: MathBlock() {
 
     value_2_alt = 999;
     value_4_alt = 999;
+    value_2_bool = false;
+    value_4_bool = false;
 
     is_1_int = false;
     is_1_bool = false;
@@ -20,6 +22,7 @@ MathBlock :: MathBlock() {
     is_2_bool = false;
     bool_2_var = NULL;
     int_2_var = NULL;
+    is_2_static_bool = false;
 
     is_3_logic = false;
     is_3_math = false;
@@ -31,6 +34,7 @@ MathBlock :: MathBlock() {
     is_4_bool = false;
     bool_4_var = NULL;
     int_4_var = NULL;
+    is_4_static_bool = false;
 }
 
 void MathBlock :: setNext1(Block *b) {
@@ -112,7 +116,7 @@ int MathBlock :: setFirstSlotMath(int n = 0, int* var_int = NULL, bool* var_bool
     }
     return 0;
 }
-int MathBlock :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int MathBlock :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     if(n == 1){
         cout<<"Slot 2 do bloco de math - int: "<<*var_int<<endl;
         is_2_int = true;
@@ -120,6 +124,8 @@ int MathBlock :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_boo
         is_2_bool = false;
         is_2_value = false;
         value_2_alt = 999;
+        is_2_static_bool = false;
+        value_2_bool = false;
         return 0;
     }
     if(n == 2){
@@ -129,6 +135,8 @@ int MathBlock :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_boo
         is_2_int = false;
         is_2_value = false;
         value_2_alt = 999;
+        is_2_static_bool = false;
+        value_2_bool = false;
         return 0;
     }
     if(n == 3){
@@ -137,6 +145,18 @@ int MathBlock :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_boo
         value_2_alt = value;
         is_2_int = false;
         is_2_bool = false;
+        is_2_static_bool = false;
+        value_2_bool = false;
+        return 0;
+    }
+    if(n == 4){
+        cout<<"Slot 2 do bloco de math - estatico bool: "<<value<<endl;
+        is_2_value = false;
+        value_2_alt = 999;
+        is_2_int = false;
+        is_2_bool = false;
+        is_2_static_bool = true;
+        value_2_bool = bool_value;
         return 0;
     }
     return 0;
@@ -158,7 +178,7 @@ int MathBlock :: setThirdSlotMath(int n = 0, int value = 0){
     }
     return 0;
 }
-int MathBlock :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+int MathBlock :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0, bool bool_value = false){
     if(n == 1){
         cout<<"Slot 4 do bloco de math - int: "<<*var_int<<endl;
         is_4_int = true;
@@ -166,6 +186,8 @@ int MathBlock :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_boo
         is_4_bool = false;
         is_4_value = false;
         value_4_alt = 999;
+        is_4_static_bool = false;
+        value_4_bool = false;
         return 0;
     }
     if(n == 2){
@@ -175,6 +197,8 @@ int MathBlock :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_boo
         is_4_int = false;
         is_4_value = false;
         value_4_alt = 999;
+        is_4_static_bool = false;
+        value_4_bool = false;
         return 0;
     }
     if(n == 3){
@@ -183,6 +207,18 @@ int MathBlock :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_boo
         value_4_alt = value;
         is_4_int = false;
         is_4_bool = false;
+        is_4_static_bool = false;
+        value_4_bool = false;
+        return 0;
+    }
+    if(n == 4){
+        cout<<"Slot 4 do bloco de math - estatico bool: "<<value<<endl;
+        is_4_value = false;
+        value_4_alt = 999;
+        is_4_int = false;
+        is_4_bool = false;
+        is_4_static_bool = true;
+        value_4_bool = bool_value;
         return 0;
     }
     return 0;
@@ -201,6 +237,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     *int_1_var = *int_2_var + value_4_alt;
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -210,6 +249,9 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -222,6 +264,23 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     *int_1_var = value_2_alt + value_4_alt;
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
                 }
             }
         }
@@ -236,6 +295,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -247,6 +309,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -256,6 +321,23 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -274,6 +356,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     *int_1_var = *int_2_var - value_4_alt;
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -283,6 +368,9 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -295,6 +383,23 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     *int_1_var = value_2_alt - value_4_alt;
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
                 }
             }
         }
@@ -309,6 +414,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -320,6 +428,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -329,6 +440,23 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -347,6 +475,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     *int_1_var = *int_2_var * value_4_alt;
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -356,6 +487,9 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -368,6 +502,23 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     *int_1_var = value_2_alt * value_4_alt;
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
                 }
             }
         }
@@ -382,6 +533,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -393,6 +547,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -402,6 +559,23 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -420,6 +594,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true && value_4_alt != 0){
                     *int_1_var = *int_2_var / value_4_alt;
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -429,6 +606,9 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -441,6 +621,23 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true && value_4_alt != 0){
                     *int_1_var = value_2_alt / value_4_alt;
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
                 }
             }
         }
@@ -455,6 +652,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -466,6 +666,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -475,6 +678,23 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -493,6 +713,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true && value_4_alt != 0){
                     *int_1_var = pow(*int_2_var , value_4_alt);
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -502,6 +725,9 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -514,6 +740,23 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true && value_4_alt != 0){
                     *int_1_var = pow(value_2_alt , value_4_alt);
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
                 }
             }
         }
@@ -528,6 +771,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -539,6 +785,9 @@ Block* MathBlock :: executeFunction(){
                 if(is_4_value == true){
                     //errado
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -548,6 +797,23 @@ Block* MathBlock :: executeFunction(){
                     //errado
                 }
                 if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    //errado
+                }
+                if(is_4_bool == true){
+                    //errado
+                }
+                if(is_4_value == true){
+                    //errado
+                }
+                if(is_4_static_bool == true){
                     //errado
                 }
             }
@@ -579,6 +845,17 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     if(*int_2_var == value_4_alt){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
+                if(is_4_static_bool == true){
+                    if(*int_2_var >= 1 && value_4_bool == true){
+                        *int_1_var = 1;
+                    }
+                    else if(*int_2_var < 1 && value_4_bool == false){
                         *int_1_var = 1;
                     }
                     else{
@@ -617,6 +894,14 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    if(*bool_2_var == value_4_bool){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -640,6 +925,57 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     if(value_2_alt == value_4_alt){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
+                if(is_4_static_bool == true){
+                    if(value_2_alt >= 1 && value_4_bool == true){
+                        *int_1_var = 1;
+                    }
+                    else if(value_2_alt < 1 && value_4_bool == false){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    if(*int_4_var >= 1 && value_2_bool == true){
+                        *int_1_var = 1;
+                    }
+                    else if(*int_4_var < 1 && value_2_bool == false){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_bool == *bool_4_var){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
+                if(is_4_value == true){
+                    if(value_4_alt >= 1 && value_2_bool == true){
+                        *int_1_var = 1;
+                    }
+                    else if(value_4_alt < 1 && value_2_bool == false){
+                        *int_1_var = 1;
+                    }
+                    else{
+                        *int_1_var = 0;
+                    }
+                }
+                if(is_4_static_bool == true){
+                    if(value_2_bool == value_4_bool){
                         *int_1_var = 1;
                     }
                     else{
@@ -678,6 +1014,17 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    if(*int_2_var >= 1 && value_4_bool == true){
+                        *bool_1_var = true;
+                    }
+                    else if(*int_2_var < 1 && value_4_bool == false){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -710,6 +1057,14 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    if(*bool_2_var == value_4_bool){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -733,6 +1088,57 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     if(value_2_alt == value_4_alt){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
+                if(is_4_static_bool == true){
+                    if(value_2_alt >= 1 && value_4_bool == true){
+                        *bool_1_var = true;
+                    }
+                    else if(value_2_alt < 1 && value_4_bool == false){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    if(*int_4_var >= 1 && value_2_bool == true){
+                        *bool_1_var = true;
+                    }
+                    else if(*int_4_var < 1 && value_2_bool == false){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_bool == *bool_4_var){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
+                if(is_4_value == true){
+                    if(value_4_alt >= 1 && value_2_bool == true){
+                        *bool_1_var = true;
+                    }
+                    else if(value_4_alt < 1 && value_2_bool == false){
+                        *bool_1_var = true;
+                    }
+                    else{
+                        *bool_1_var = false;
+                    }
+                }
+                if(is_4_static_bool == true){
+                    if(value_2_bool == value_4_bool){
                         *bool_1_var = true;
                     }
                     else{
@@ -774,6 +1180,17 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 1;
                     }
                 }
+                if(is_4_static_bool == true){
+                    if(*int_2_var >= 1 && value_4_bool == true){
+                        *int_1_var = 0;
+                    }
+                    else if(*int_2_var < 1 && value_4_bool == false){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -806,6 +1223,14 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 1;
                     }
                 }
+                if(is_4_bool == true){
+                    if(*bool_2_var == value_4_bool){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
             }
             if(is_2_value == true){
                 if(is_4_int == true){
@@ -829,6 +1254,57 @@ Block* MathBlock :: executeFunction(){
                 }
                 if(is_4_value == true){
                     if(value_2_alt == value_4_alt){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_alt >= 1 && value_4_bool == true){
+                        *int_1_var = 0;
+                    }
+                    else if(value_2_alt < 1 && value_4_bool == false){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    if(*int_4_var >= 1 && value_2_bool == true){
+                        *int_1_var = 0;
+                    }
+                    else if(*int_4_var < 1 && value_2_bool == false){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_bool == *bool_4_var){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
+                if(is_4_value == true){
+                    if(value_4_alt >= 1 && value_2_bool == true){
+                        *int_1_var = 0;
+                    }
+                    else if(value_4_alt < 1 && value_2_bool == false){
+                        *int_1_var = 0;
+                    }
+                    else{
+                        *int_1_var = 1;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_bool == value_4_bool){
                         *int_1_var = 0;
                     }
                     else{
@@ -867,6 +1343,17 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = true;
                     }
                 }
+                if(is_4_bool == true){
+                    if(*int_2_var >= 1 && value_4_bool == true){
+                        *bool_1_var = false;
+                    }
+                    else if(*int_2_var < 1 && value_4_bool == false){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
             }
             if(is_2_bool == true){
                 if(is_4_int == true){
@@ -893,6 +1380,14 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                     else if(value_4_alt < 1 && *bool_2_var == false){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(*bool_2_var == value_4_bool){
                         *bool_1_var = false;
                     }
                     else{
@@ -928,6 +1423,57 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = true;
                     }
                 }
+                if(is_4_bool == true){
+                    if(value_2_alt >= 1 && value_4_bool == true){
+                        *bool_1_var = false;
+                    }
+                    else if(value_2_alt < 1 && value_4_bool == false){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
+            }
+            if(is_2_static_bool == true){
+                if(is_4_int == true){
+                    if(*int_4_var >= 1 && value_2_bool == true){
+                        *bool_1_var = false;
+                    }
+                    else if(*int_4_var < 1 && value_2_bool == false){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_bool == *bool_4_var){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
+                if(is_4_value == true){
+                    if(value_4_alt >= 1 && value_2_bool == true){
+                        *bool_1_var = false;
+                    }
+                    else if(value_4_alt < 1 && value_2_bool == false){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
+                if(is_4_bool == true){
+                    if(value_2_bool == value_4_bool){
+                        *bool_1_var = false;
+                    }
+                    else{
+                        *bool_1_var = true;
+                    }
+                }
             }
         }
     }
@@ -955,6 +1501,9 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -979,6 +1528,12 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
         //atribuir a bool
@@ -1003,6 +1558,9 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1027,6 +1585,12 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
     }
@@ -1054,6 +1618,9 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1078,6 +1645,12 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
         //atribuir a bool
@@ -1102,6 +1675,9 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1126,6 +1702,12 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
     }
@@ -1153,6 +1735,9 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1177,6 +1762,12 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
         //atribuir a bool
@@ -1201,6 +1792,9 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1225,6 +1819,12 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
     }
@@ -1252,6 +1852,9 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1276,6 +1879,12 @@ Block* MathBlock :: executeFunction(){
                         *int_1_var = 0;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
         //atribuir a bool
@@ -1300,6 +1909,9 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
             }
             if(is_2_bool == true){
                 //errado
@@ -1324,6 +1936,12 @@ Block* MathBlock :: executeFunction(){
                         *bool_1_var = false;
                     }
                 }
+                if(is_4_static_bool == true){
+                    //errado
+                }
+            }
+            if(is_2_static_bool == true){
+                //errado
             }
         }
     }
@@ -1404,6 +2022,32 @@ int MathBlock :: returnLogicSymbol_3(){
 int MathBlock :: returnMathSymbol_3(){
     if(is_3_math == true){
         return math_3_value;
+    }
+    else{
+        return 999;
+    }
+}
+int MathBlock ::returnStaticBoolValue_2(){
+    if(is_2_static_bool == true){
+        if(value_2_bool == true){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else{
+        return 999;
+    }
+}
+int MathBlock ::returnStaticBoolValue_4(){
+    if(is_4_static_bool == true){
+        if(value_4_bool == true){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
     else{
         return 999;

@@ -48,9 +48,10 @@
 #define LOGIC_AND_MATH_MENU 77
 //#define MATH_MENU 78
 #define ATTRIBUTION_BLOCK 78
-#define MATH_BLOCK 79
-#define NEW_CONDITIONAL_BLOCK 80
+#define MATH_BLOCK 80
+#define NEW_CONDITIONAL_BLOCK 79
 #define WHILE_BLOCK 81
+#define STATIC_BOOL_MENU 82
 
 #define BLACK_SENSOR_1 1
 #define BLACK_SENSOR_2 2
@@ -85,7 +86,7 @@
 #define scroll_bar_y_begin 84
 //#define display_width 670
 #define display_width 800
-#define display_height 925
+#define display_height 680
 #define roll_bar_width 20
 #define roll_bar_height 30
 

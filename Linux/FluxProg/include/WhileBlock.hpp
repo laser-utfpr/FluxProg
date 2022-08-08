@@ -20,6 +20,7 @@ class WhileBlock : public ProgrammingBlock {
 
     int value_1_alt;
     int value_3_alt;
+    bool value_3_bool;
 
     bool is_1_int;
     bool is_1_value;
@@ -32,6 +33,7 @@ class WhileBlock : public ProgrammingBlock {
     bool is_3_bool;
     bool* bool_3_var;
     int* int_3_var;
+    bool is_3_static_bool;
 
     int logic_2_value;
 
@@ -71,7 +73,7 @@ public:
 
     int setFirstSlotWhile(int n, int* var_int, bool* var_bool);
     int setSecondSlotWhile(int value);
-    int setThirdSlotWhile(int n, int* var_int, bool* var_bool, int value);
+    int setThirdSlotWhile(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     Block* executeFunction();
 
     int* returnIntVar_1();
@@ -79,7 +81,9 @@ public:
     int* returnIntVar_3();
     bool* returnBoolVar_3();
     int returnStaticValue_3();
-    
+
     int returnLogicSymbol_2();
+
+    int returnStaticBoolValue_3();
 };
 #endif

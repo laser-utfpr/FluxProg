@@ -98,17 +98,17 @@ public:
     //int setThirdSlot();
     //int setFourthSlot();
     virtual int setFirstSlotAttr(int n, int* var_int, bool* var_bool);
-    virtual int setSecondSlotAttr(int n, int* var_int, bool* var_bool, int value);
+    virtual int setSecondSlotAttr(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     virtual int setFirstSlotMath(int n, int* var_int, bool* var_bool);
-    virtual int setSecondSlotMath(int n, int* var_int, bool* var_bool, int value);
+    virtual int setSecondSlotMath(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     virtual int setThirdSlotMath(int n, int value);
-    virtual int setFourthSlotMath(int n, int* var_int, bool* var_bool, int value);
+    virtual int setFourthSlotMath(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     virtual int setFirstSlotConditional(int n, int* var_int, bool* var_bool);
     virtual int setSecondSlotConditional(int value);
-    virtual int setThirdSlotConditional(int n, int* var_int, bool* var_bool, int value);
+    virtual int setThirdSlotConditional(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     virtual int setFirstSlotWhile(int n, int* var_int, bool* var_bool);
     virtual int setSecondSlotWhile(int value);
-    virtual int setThirdSlotWhile(int n, int* var_int, bool* var_bool, int value);
+    virtual int setThirdSlotWhile(int n, int* var_int, bool* var_bool, int value, bool bool_value);
     virtual Block* executeFunction();
     virtual int* returnIntVar_1();
     virtual bool* returnBoolVar_1();
@@ -124,5 +124,12 @@ public:
     virtual int returnLogicSymbol_2();
     virtual int returnLogicSymbol_3();
     virtual int returnMathSymbol_3();
+
+    virtual int returnStaticBoolValue_2();
+    virtual int returnStaticBoolValue_3();
+    virtual int returnStaticBoolValue_4();
+
+    virtual int setSensorReading(int value);
+    virtual int returnSensorValue();
 };
 #endif

@@ -441,7 +441,6 @@ void FluxProg :: execute() {
                             current_executing_block->setParameter2(1);
                             cout<<"sensor: "<<black_sensor_reading[0]<<endl;
                             break;
-
                         case 2:
                             //black sensor 2
                             current_executing_block->setParameter1(black_sensor_reading[1]);
@@ -507,6 +506,90 @@ void FluxProg :: execute() {
                             current_executing_block->setParameter2(1);
                             cout<<"sensor: "<<ultrasonic_sensor_reading[2]<<endl;
                             break;
+                    }
+                }
+                if(current_executing_block->getType() == ATTRIBUTION_BLOCK) {
+                    if(current_executing_block->getTypeOfSensor() != 999){
+                        communication->upadateReadings();
+                        int* black_sensor_reading = communication->getBlackTypeReading();
+                        int* ultrasonic_sensor_reading = communication->getUltrasonicReading();
+                        //Color sensor aqui
+                        int low_limit_ultrasonic = 10;
+                        int high_limit_ultrasonic = 21;
+                        //checa tipo de sensor
+                        switch(current_executing_block->getTypeOfSensor()) {
+                            case 1:
+                                //black sensor 1
+                                current_executing_block->setSensorReading(black_sensor_reading[0]);
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<black_sensor_reading[0]<<endl;
+                                break;
+                            case 2:
+                                //black sensor 2
+                                current_executing_block->setSensorReading(black_sensor_reading[1]);
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<black_sensor_reading[1]<<endl;
+                                break;
+                            case 3:
+                                //black sensor 3
+                                current_executing_block->setSensorReading(black_sensor_reading[2]);
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<black_sensor_reading[2]<<endl;
+                                break;
+                            case 4:
+                                //black sensor 4
+                                current_executing_block->setSensorReading(black_sensor_reading[3]);
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<black_sensor_reading[3]<<endl;
+                                break;
+                            case 5:
+                                //black sensor 5
+                                current_executing_block->setSensorReading(black_sensor_reading[4]);
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<black_sensor_reading[4]<<endl;
+                                break;
+                            case 6:
+                                //color sensor 1
+                                //Ajustar aqui
+                                //current_executing_block->setParameter1(1);
+                                //current_executing_block->setParameter2(1);
+                                break;
+                            case 7:
+                                //color sensor 2
+                                //current_executing_block->setParameter1(0);
+                                //current_executing_block->setParameter2(1);
+                                break;
+                            case 8:
+                                //ultrasonic sensor 1
+                                if((ultrasonic_sensor_reading[0] > low_limit_ultrasonic) && (ultrasonic_sensor_reading[0] <= high_limit_ultrasonic)) {
+                                    current_executing_block->setSensorReading(ultrasonic_sensor_reading[0]);
+                                } else {
+                                    current_executing_block->setSensorReading(0);
+                                }
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<ultrasonic_sensor_reading[0]<<endl;
+                                break;
+                            case 9:
+                                //ultrasonic sensor 2
+                                if((ultrasonic_sensor_reading[1] > low_limit_ultrasonic) && (ultrasonic_sensor_reading[1] <= high_limit_ultrasonic)) {
+                                    current_executing_block->setSensorReading(ultrasonic_sensor_reading[1]);
+                                } else {
+                                    current_executing_block->setSensorReading(0);
+                                }
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<ultrasonic_sensor_reading[1]<<endl;
+                                break;
+                            case 10:
+                                //ultrasonic sensor 3
+                                if((ultrasonic_sensor_reading[2] > low_limit_ultrasonic) && (ultrasonic_sensor_reading[2] <= high_limit_ultrasonic)) {
+                                    current_executing_block->setSensorReading(ultrasonic_sensor_reading[2]);
+                                } else {
+                                    current_executing_block->setSensorReading(0);
+                                }
+                                //current_executing_block->setParameter2(1);
+                                cout<<"Atribuicao Sensor: "<<ultrasonic_sensor_reading[2]<<endl;
+                                break;
+                        }
                     }
                 }
                 //se for 1 significa que terminou execução ou está pronto para receber

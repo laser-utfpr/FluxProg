@@ -91,8 +91,9 @@ class Interface {
     ALLEGRO_BITMAP *BOOL_VAR_IMG[10], *INT_VAR_IMG[10], *LOGIC_OPERATOR_IMG[6], *MATH_OPERATOR_IMG[5];
     ALLEGRO_BITMAP *MICRO_BOOL_VAR_IMG[10], *MICRO_INT_VAR_IMG[10], *MICRO_LOGIC_OPERATOR_IMG[6], *MICRO_MATH_OPERATOR_IMG[5];
     ALLEGRO_BITMAP *SLOT_NUMBER[10];
+    ALLEGRO_BITMAP *STATIC_BOOL[2], *MICRO_STATIC_BOOL[2];
     //v3
-    bool int_menu_selected, bool_menu_selected, logic_menu_selected, math_menu_selected;
+    bool int_menu_selected, bool_menu_selected, logic_menu_selected, math_menu_selected, static_bool_menu_selected;
     //v3 dragging
     bool dragging_int_A, dragging_int_B, dragging_int_C, dragging_int_D, dragging_int_E;
     bool dragging_int_F, dragging_int_G, dragging_int_H, dragging_int_I, dragging_int_J;
@@ -100,6 +101,7 @@ class Interface {
     bool dragging_bool_F, dragging_bool_G, dragging_bool_H, dragging_bool_I, dragging_bool_J;
     bool dragging_equal, dragging_greater_equal, dragging_less_equal, dragging_greater, dragging_less, dragging_unequal;
     bool dragging_add, dragging_div, dragging_exponent, dragging_mult, dragging_sub;
+    bool dragging_static_false, dragging_static_true;
     int** int_var_list;
     bool** bool_var_list;
     //v3 limit

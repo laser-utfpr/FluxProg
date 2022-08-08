@@ -304,6 +304,10 @@ void Interface :: draw() {
                 if(menu_selected == LOGIC_AND_MATH_MENU) {
                     //math_menu_selected = true;
                 }
+                if(menu_selected == STATIC_BOOL_MENU) {
+                    cout<<"draw() - static_bool_menu_selected = true"<<endl;
+                    static_bool_menu_selected = true;
+                }
             }
             //testa se soltou o bloco na lixeira
             for(int i=0; i<valor_maximo_blocos; i++) {
@@ -448,23 +452,28 @@ void Interface :: print_primary_menu() {
 void Interface :: print_secondary_menu() {
 
     int blocks_menu_Y = (al_get_bitmap_height(play_button)+4);
-    int sensors_menu_Y = blocks_menu_Y + 6*al_get_bitmap_height(mini_menu[0]);
+    int sensors_menu_Y = blocks_menu_Y + 3*al_get_bitmap_height(mini_menu[0]);
     int actions_menu_Y = sensors_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
     int extra_menu_Y = actions_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
     //v3
     int new_menu_Y = extra_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
 
     //desenha o retangulo no qual ficam os botões de opções
-    al_draw_filled_rectangle(0, blocks_menu_Y, al_get_bitmap_width(mini_menu[0])+5, blocks_menu_Y + 6*al_get_bitmap_height(mini_menu[0])+5, primary_menu_color);
-    al_draw_filled_rectangle(0, sensors_menu_Y, al_get_bitmap_width(mini_menu[0])+5, sensors_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, sensors_menu_color);
-    al_draw_filled_rectangle(0, actions_menu_Y, al_get_bitmap_width(mini_menu[0])+5, actions_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, functions_menu_color);
-    al_draw_filled_rectangle(0, extra_menu_Y, al_get_bitmap_width(mini_menu[0])+5, extra_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, numbers_menu_color);
+    al_draw_filled_rectangle(0, blocks_menu_Y, (2*al_get_bitmap_width(mini_menu[0]))+5, blocks_menu_Y + 3*al_get_bitmap_height(mini_menu[0])+5, primary_menu_color);
+    al_draw_filled_rectangle(0, sensors_menu_Y, (al_get_bitmap_width(mini_menu[0]))+5, sensors_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, sensors_menu_color);
+    al_draw_filled_rectangle(al_get_bitmap_width(mini_menu[0]) + 5, sensors_menu_Y, 2*al_get_bitmap_width(mini_menu[0]) + 5, sensors_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, primary_menu_color);
+    al_draw_filled_rectangle(0, actions_menu_Y, (al_get_bitmap_width(mini_menu[0]))+5, actions_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, functions_menu_color);
+    al_draw_filled_rectangle(al_get_bitmap_width(mini_menu[0]) + 5, actions_menu_Y, 2*al_get_bitmap_width(mini_menu[0]) + 5, actions_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, primary_menu_color);
+    al_draw_filled_rectangle(0, extra_menu_Y, (2*al_get_bitmap_width(mini_menu[0]))+5, extra_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, numbers_menu_color);
     //v3
-    al_draw_filled_rectangle(0, new_menu_Y, al_get_bitmap_width(mini_menu[0])+5, new_menu_Y + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, new_menu_color);
+    al_draw_filled_rectangle(0, new_menu_Y, (2*al_get_bitmap_width(mini_menu[0]))+5, new_menu_Y + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION)+10, new_menu_color);
 
     //desenha todos os botões que criam blocos
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 3; i++) {
         al_draw_bitmap(mini_menu[i], 0, blocks_menu_Y + i * al_get_bitmap_height(mini_menu[i]), 0);
+    }
+    for (int i = 0; i < 3; i++) {
+        al_draw_bitmap(mini_menu[i+3], al_get_bitmap_width(mini_menu[0]), blocks_menu_Y + i * al_get_bitmap_height(mini_menu[i]), 0);
     }
     //desenha botoes de sensores
     al_draw_bitmap(BLACK_SENSOR_FUNCTION, 0, sensors_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
@@ -476,18 +485,20 @@ void Interface :: print_secondary_menu() {
     al_draw_bitmap(TURN_RIGHT_ACTION, 0, actions_menu_Y + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
     //desenha botoes extras
     al_draw_bitmap(NUMBER[2], 0, extra_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    //v3
+    al_draw_bitmap(STATIC_BOOL[0], al_get_bitmap_width(mini_menu[0]), extra_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
     //al_draw_bitmap(logic_true, 0, extra_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
     //al_draw_bitmap(logic_false, 0, extra_menu_Y + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
 
     //desenha botoes v3
     al_draw_bitmap(INT_VAR_IMG[0], 0, new_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
-    al_draw_bitmap(BOOL_VAR_IMG[0], 0, new_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
-    al_draw_bitmap(LOGIC_OPERATOR_IMG[0], 0, new_menu_Y + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    al_draw_bitmap(BOOL_VAR_IMG[0], al_get_bitmap_width(mini_menu[0]), new_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    al_draw_bitmap(LOGIC_OPERATOR_IMG[0], 0, new_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
     //al_draw_bitmap(MATH_OPERATOR_IMG[0], 0, new_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
-    al_draw_bitmap(NEW_MINI_MENU_IMG[0], 0, new_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
-    al_draw_bitmap(NEW_MINI_MENU_IMG[1], 0, new_menu_Y + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
-    al_draw_bitmap(NEW_MINI_MENU_IMG[2], 0, new_menu_Y + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
-    al_draw_bitmap(NEW_MINI_MENU_IMG[3], 0, new_menu_Y + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    al_draw_bitmap(NEW_MINI_MENU_IMG[0], 0, new_menu_Y + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    al_draw_bitmap(NEW_MINI_MENU_IMG[1], al_get_bitmap_width(mini_menu[0]), new_menu_Y + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    al_draw_bitmap(NEW_MINI_MENU_IMG[2], 0, new_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
+    al_draw_bitmap(NEW_MINI_MENU_IMG[3], al_get_bitmap_width(mini_menu[0]), new_menu_Y + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION) + 5, 0);
 
     //variaveis usadas para facilitar a impressao das imagens
     int black_sensor_submenu_X = al_get_bitmap_width(mini_menu[0]) + 5;
@@ -500,16 +511,16 @@ void Interface :: print_secondary_menu() {
     //imprime submenus
     if(black_sensor_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(BLACK_SENSOR_1_FUNCTION, black_sensor_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
-        al_draw_bitmap(BLACK_SENSOR_2_FUNCTION, black_sensor_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
-        al_draw_bitmap(BLACK_SENSOR_3_FUNCTION, black_sensor_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
-        al_draw_bitmap(BLACK_SENSOR_4_FUNCTION, black_sensor_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
-        al_draw_bitmap(BLACK_SENSOR_5_FUNCTION, black_sensor_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
+        al_draw_bitmap(BLACK_SENSOR_1_FUNCTION, black_sensor_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
+        al_draw_bitmap(BLACK_SENSOR_2_FUNCTION, black_sensor_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
+        al_draw_bitmap(BLACK_SENSOR_3_FUNCTION, black_sensor_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
+        al_draw_bitmap(BLACK_SENSOR_4_FUNCTION, black_sensor_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
+        al_draw_bitmap(BLACK_SENSOR_5_FUNCTION, black_sensor_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, 0);
         for(int i=0; i<5; i++) {
             // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > black_sensor_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < black_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > black_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < black_sensor_submenu_X + (i+1+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > black_sensor_submenu_Y) && (mouseY < black_sensor_submenu_Y + 5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(black_sensor_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, black_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(black_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y, black_sensor_submenu_X + (i+1+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), black_sensor_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 24 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
@@ -519,13 +530,13 @@ void Interface :: print_secondary_menu() {
 
     if(color_sensor_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(COLOR_SENSOR_1_FUNCTION, color_sensor_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y, 0);
-        al_draw_bitmap(COLOR_SENSOR_2_FUNCTION, color_sensor_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y, 0);
+        al_draw_bitmap(COLOR_SENSOR_1_FUNCTION, color_sensor_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y, 0);
+        al_draw_bitmap(COLOR_SENSOR_2_FUNCTION, color_sensor_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y, 0);
         for(int i=0; i<2; i++) {
             // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > color_sensor_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < color_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > color_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < color_sensor_submenu_X + (i+1+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > color_sensor_submenu_Y) && (mouseY < color_sensor_submenu_Y+5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(color_sensor_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y, color_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(color_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y, color_sensor_submenu_X + (i+1+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), color_sensor_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 29 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
@@ -535,14 +546,14 @@ void Interface :: print_secondary_menu() {
 
     if(ultrasonic_sensor_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(ULTRASONIC_SENSOR_1_FUNCTION, ultrasonic_sensor_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, 0);
-        al_draw_bitmap(ULTRASONIC_SENSOR_2_FUNCTION, ultrasonic_sensor_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, 0);
-        al_draw_bitmap(ULTRASONIC_SENSOR_3_FUNCTION, ultrasonic_sensor_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, 0);
+        al_draw_bitmap(ULTRASONIC_SENSOR_1_FUNCTION, ultrasonic_sensor_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, 0);
+        al_draw_bitmap(ULTRASONIC_SENSOR_2_FUNCTION, ultrasonic_sensor_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, 0);
+        al_draw_bitmap(ULTRASONIC_SENSOR_3_FUNCTION, ultrasonic_sensor_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, 0);
         for(int i=0; i<3; i++) {
             // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > ultrasonic_sensor_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < ultrasonic_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > ultrasonic_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < ultrasonic_sensor_submenu_X + (i+1+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > ultrasonic_sensor_submenu_Y) && (mouseY < ultrasonic_sensor_submenu_Y+5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(ultrasonic_sensor_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, ultrasonic_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(ultrasonic_sensor_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y, ultrasonic_sensor_submenu_X + (i+1+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), ultrasonic_sensor_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 31 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
@@ -550,7 +561,7 @@ void Interface :: print_secondary_menu() {
         }
     }
     //v3 anotacoes: os numeros 4, 9, 19 e 29 sao o offset do retangulo desenhado ao redor dos grupos de botoes
-    for(int i=0; i<6; i++) {
+    for(int i=0; i<3; i++) {
         // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
         if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
             if((mouseY > al_get_bitmap_height(play_button) + 4 + i*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 4 + (i+1)*al_get_bitmap_height(mini_menu[0]))) {
@@ -560,12 +571,22 @@ void Interface :: print_secondary_menu() {
             }
         }
     }
+    for(int i=3; i<6; i++) {
+        // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
+        if((mouseX > al_get_bitmap_width(WALK_FOWARD_ACTION)) && (mouseX < 2*al_get_bitmap_width(WALK_FOWARD_ACTION))) {
+            if((mouseY > al_get_bitmap_height(play_button) + 4 + (i-3)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 4 + (i+1-3)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button) + 4 + (i-3)*al_get_bitmap_height(mini_menu[0]), 2*al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+4 + (i+1-3)*al_get_bitmap_height(mini_menu[0]), black, 3);
+                menu_selected = 9 + i;
+                cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+            }
+        }
+    }
 
     for(int i=6; i<9; i++) {
         // checa se o mouse está sobre o menu de sensores e desenha um retangulo selecionando o botao que o mouse está sobre
         if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
-            if((mouseY > al_get_bitmap_height(play_button) + 9 + i*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 9 + (i+1)*al_get_bitmap_height(mini_menu[0]))) {
-                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 9 + i*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 9 + (i+1)*al_get_bitmap_height(mini_menu[0]), black, 3);
+            if((mouseY > al_get_bitmap_height(play_button) + 9 + (i-3)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 9 + (i+1-3)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 9 + (i-3)*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 9 + (i+1-3)*al_get_bitmap_height(mini_menu[0]), black, 3);
                 menu_selected = 9 + i;
                 cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
             }
@@ -575,8 +596,8 @@ void Interface :: print_secondary_menu() {
     for(int i=9; i<12; i++) {
         // checa se o mouse está sobre o menu e desenha um retangulo selecionando o botao que o mouse está sobre
         if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
-            if((mouseY > al_get_bitmap_height(play_button) + 19 + i*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 19 + (i+1)*al_get_bitmap_height(mini_menu[0]))) {
-                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 19 + i*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 19 + (i+1)*al_get_bitmap_height(mini_menu[0]), black, 3);
+            if((mouseY > al_get_bitmap_height(play_button) + 19 + (i-3)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 19 + (i+1-3)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 19 + (i-3)*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 19 + (i+1-3)*al_get_bitmap_height(mini_menu[0]), black, 3);
                 menu_selected = 9 + i;
                 cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
             }
@@ -586,20 +607,70 @@ void Interface :: print_secondary_menu() {
     for(int i=12; i<13; i++) {
         // checa se o mouse está sobre o menu e desenha um retangulo selecionando o botao que o mouse está sobre
         if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
-            if((mouseY > al_get_bitmap_height(play_button) + 29 + i*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 29 + (i+1)*al_get_bitmap_height(mini_menu[0]))) {
-                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 29 + i*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 29 + (i+1)*al_get_bitmap_height(mini_menu[0]), black, 3);
+            if((mouseY > al_get_bitmap_height(play_button) + 29 + (i-3)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 29 + (i+1-3)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 29 + (i-3)*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 29 + (i+1-3)*al_get_bitmap_height(mini_menu[0]), black, 3);
                 menu_selected = 9 + i;
                 cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
             }
         }
     }
     //v3
-    for(int i=13; i<20; i++) {
-        // checa se o mouse está sobre o NOVO menu e desenha um retangulo selecionando o botao que o mouse está sobre
+    for(int i=13; i<14; i++) {
+        // checa se o mouse está sobre o NOVO menu (INT) e desenha um retangulo selecionando o botao que o mouse está sobre
         if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
-            if((mouseY > al_get_bitmap_height(play_button) + 39 + i*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 39 + (i+1)*al_get_bitmap_height(mini_menu[0]))) {
-                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 39 + i*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 39 + (i+1)*al_get_bitmap_height(mini_menu[0]), black, 3);
+            if((mouseY > al_get_bitmap_height(play_button) + 39 + (i-3)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 39 + (i+1-3)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 39 + (i-3)*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 39 + (i+1-3)*al_get_bitmap_height(mini_menu[0]), black, 3);
                 menu_selected = 9 + i + 53; //53 e o offset das definicoes do v3
+                cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+            }
+        }
+    }
+    for(int i=14; i<15; i++) {
+        // checa se o mouse está sobre o NOVO menu (BOOL) e desenha um retangulo selecionando o botao que o mouse está sobre
+        if((mouseX > al_get_bitmap_width(WALK_FOWARD_ACTION)) && (mouseX < 2*al_get_bitmap_width(WALK_FOWARD_ACTION))) {
+            if((mouseY > al_get_bitmap_height(play_button) + 39 + (i-4)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 39 + (i+1-4)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button) + 39 + (i-4)*al_get_bitmap_height(mini_menu[0]), 2*al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 39 + (i+1-4)*al_get_bitmap_height(mini_menu[0]), black, 3);
+                menu_selected = 9 + i + 53; //53 e o offset das definicoes do v3
+                cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+            }
+        }
+    }
+    for(int i=15; i<16; i++) {
+        // checa se o mouse está sobre o NOVO menu (Operadores) e desenha um retangulo selecionando o botao que o mouse está sobre
+        if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
+            if((mouseY > al_get_bitmap_height(play_button) + 39 + (i-4)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 39 + (i+1-4)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 39 + (i-4)*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 39 + (i+1-4)*al_get_bitmap_height(mini_menu[0]), black, 3);
+                menu_selected = 9 + i + 53; //53 e o offset das definicoes do v3
+                cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+            }
+        }
+    }
+    for(int i=16; i<18; i++) {
+        // checa se o mouse está sobre o NOVO menu de blocos (esquerda) e desenha um retangulo selecionando o botao que o mouse está sobre
+        if((mouseX > 0) && (mouseX < al_get_bitmap_width(WALK_FOWARD_ACTION))) {
+            if((mouseY > al_get_bitmap_height(play_button) + 39 + (i-4)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 39 + (i+1-4)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(0, al_get_bitmap_height(play_button) + 39 + (i-4)*al_get_bitmap_height(mini_menu[0]), al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 39 + (i+1-4)*al_get_bitmap_height(mini_menu[0]), black, 3);
+                menu_selected = 9 + i + 53; //53 e o offset das definicoes do v3
+                cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+            }
+        }
+    }
+    for(int i=18; i<20; i++) {
+        // checa se o mouse está sobre o NOVO menu de blocos (direita) e desenha um retangulo selecionando o botao que o mouse está sobre
+        if((mouseX > al_get_bitmap_width(WALK_FOWARD_ACTION)) && (mouseX < 2*al_get_bitmap_width(WALK_FOWARD_ACTION))) {
+            if((mouseY > al_get_bitmap_height(play_button) + 39 + (i-6)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 39 + (i+1-6)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button) + 39 + (i-6)*al_get_bitmap_height(mini_menu[0]), 2*al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 39 + (i+1-6)*al_get_bitmap_height(mini_menu[0]), black, 3);
+                menu_selected = 9 + i + 53; //53 e o offset das definicoes do v3
+                cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+            }
+        }
+    }
+    for(int i=20; i<21; i++) {
+        // checa se o mouse está sobre o menu de STATIC BOOL desenha um retangulo selecionando o botao que o mouse está sobre
+        if((mouseX > al_get_bitmap_width(WALK_FOWARD_ACTION)) && (mouseX < 2*al_get_bitmap_width(WALK_FOWARD_ACTION))) {
+            if((mouseY > al_get_bitmap_height(play_button) + 29 + (i-11)*al_get_bitmap_height(mini_menu[0])) && (mouseY < al_get_bitmap_height(play_button) + 29 + (i+1-11)*al_get_bitmap_height(mini_menu[0]))) {
+                al_draw_rectangle(al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button) + 29 + (i-11)*al_get_bitmap_height(mini_menu[0]), 2*al_get_bitmap_width(mini_menu[0]), al_get_bitmap_height(play_button)+ 29 + (i+1-11)*al_get_bitmap_height(mini_menu[0]), black, 3);
+                menu_selected = 9 + i + 53;
                 cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
             }
         }
@@ -612,21 +683,21 @@ void Interface :: print_secondary_menu() {
     //desenha submenu de numberos
     if(number_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(NUMBER[0], number_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[1], number_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[2], number_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[3], number_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[4], number_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[5], number_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[6], number_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[7], number_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[8], number_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
-        al_draw_bitmap(NUMBER[9], number_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[0], number_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[1], number_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[2], number_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[3], number_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[4], number_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[5], number_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[6], number_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[7], number_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[8], number_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(NUMBER[9], number_submenu_X + 10 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
         for(int i=0; i<10; i++) {
             // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > number_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < number_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > number_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < number_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > number_submenu_Y) && (mouseY < number_submenu_Y+ 5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(number_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, number_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(number_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, number_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 34 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
@@ -638,29 +709,29 @@ void Interface :: print_secondary_menu() {
     int int_var_submenu_X = al_get_bitmap_width(mini_menu[0]) + 5;
     int int_var_submenu_Y = new_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION)+5;
     int bool_var_submenu_X = al_get_bitmap_width(mini_menu[0]) + 5;
-    int bool_var_submenu_Y = new_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION)+5;
+    int bool_var_submenu_Y = new_menu_Y + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION)+5;
     int logic_submenu_X = al_get_bitmap_width(mini_menu[0]) + 5;
-    int logic_submenu_Y = new_menu_Y + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION)+5;
+    int logic_submenu_Y = new_menu_Y + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION)+5;
     //int math_submenu_X = al_get_bitmap_width(mini_menu[0]) + 5;
     //int math_submenu_Y = new_menu_Y + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION)+5;
 
     if(int_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(INT_VAR_IMG[0], int_var_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[1], int_var_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[2], int_var_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[3], int_var_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[4], int_var_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[5], int_var_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[6], int_var_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[7], int_var_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[8], int_var_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
-        al_draw_bitmap(INT_VAR_IMG[9], int_var_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[0], int_var_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[1], int_var_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[2], int_var_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[3], int_var_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[4], int_var_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[5], int_var_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[6], int_var_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[7], int_var_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[8], int_var_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
+        al_draw_bitmap(INT_VAR_IMG[9], int_var_submenu_X + 10 * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, 0);
         for(int i=0; i<10; i++) {
             // checa se o mouse está sobre o menu de INT e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > int_var_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < int_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > int_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < int_var_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > int_var_submenu_Y) && (mouseY < int_var_submenu_Y+ 5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(int_var_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, int_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(int_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y, int_var_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION), int_var_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 44 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
@@ -670,21 +741,21 @@ void Interface :: print_secondary_menu() {
 
     if(bool_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(BOOL_VAR_IMG[0], bool_var_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[1], bool_var_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[2], bool_var_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[3], bool_var_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[4], bool_var_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[5], bool_var_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[6], bool_var_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[7], bool_var_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[8], bool_var_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
-        al_draw_bitmap(BOOL_VAR_IMG[9], bool_var_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[0], bool_var_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[1], bool_var_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[2], bool_var_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[3], bool_var_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[4], bool_var_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[5], bool_var_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[6], bool_var_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[7], bool_var_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[8], bool_var_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
+        al_draw_bitmap(BOOL_VAR_IMG[9], bool_var_submenu_X + 10 * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, 0);
         for(int i=0; i<10; i++) {
             // checa se o mouse está sobre o menu de INT e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > bool_var_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < bool_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > bool_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < bool_var_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > bool_var_submenu_Y) && (mouseY < bool_var_submenu_Y+ 5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(bool_var_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, bool_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(bool_var_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y, bool_var_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION), bool_var_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 54 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
@@ -694,23 +765,39 @@ void Interface :: print_secondary_menu() {
     //v3: operadores matematicos foram imbutidos no mesmo menu dos operadores logicos
     if(logic_menu_selected == true) {
         sub_menu = true;
-        al_draw_bitmap(LOGIC_OPERATOR_IMG[0], logic_submenu_X + 0 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(LOGIC_OPERATOR_IMG[3], logic_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(LOGIC_OPERATOR_IMG[4], logic_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(LOGIC_OPERATOR_IMG[1], logic_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(LOGIC_OPERATOR_IMG[2], logic_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(LOGIC_OPERATOR_IMG[5], logic_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(MATH_OPERATOR_IMG[0], logic_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(MATH_OPERATOR_IMG[1], logic_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(MATH_OPERATOR_IMG[2], logic_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(MATH_OPERATOR_IMG[3], logic_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
-        al_draw_bitmap(MATH_OPERATOR_IMG[4], logic_submenu_X + 10 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(LOGIC_OPERATOR_IMG[0], logic_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(LOGIC_OPERATOR_IMG[3], logic_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(LOGIC_OPERATOR_IMG[4], logic_submenu_X + 3 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(LOGIC_OPERATOR_IMG[1], logic_submenu_X + 4 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(LOGIC_OPERATOR_IMG[2], logic_submenu_X + 5 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(LOGIC_OPERATOR_IMG[5], logic_submenu_X + 6 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(MATH_OPERATOR_IMG[0], logic_submenu_X + 7 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(MATH_OPERATOR_IMG[1], logic_submenu_X + 8 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(MATH_OPERATOR_IMG[2], logic_submenu_X + 9 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(MATH_OPERATOR_IMG[3], logic_submenu_X + 10 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
+        al_draw_bitmap(MATH_OPERATOR_IMG[4], logic_submenu_X + 11 * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, 0);
         for(int i=0; i<11; i++) {
             // checa se o mouse está sobre o menu de logica ou matematica e desenha um retangulo selecionando o botao que o mouse está sobre
-            if((mouseX > logic_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < logic_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+            if((mouseX > logic_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < logic_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
                 if((mouseY > logic_submenu_Y) && (mouseY < logic_submenu_Y+ 5 + al_get_bitmap_height(mini_menu[0]))) {
-                    al_draw_rectangle(logic_submenu_X + i * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, logic_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    al_draw_rectangle(logic_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y, logic_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION), logic_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
                     menu_selected = 64 + i;
+                    cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
+                }
+            }
+        }
+    }
+
+    if(static_bool_menu_selected == true) {
+        sub_menu = true;
+        al_draw_bitmap(STATIC_BOOL[0], number_submenu_X + 1 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        al_draw_bitmap(STATIC_BOOL[1], number_submenu_X + 2 * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, 0);
+        for(int i=0; i<2; i++) {
+            // checa se o mouse está sobre o menu de blocos e desenha um retangulo selecionando o botao que o mouse está sobre
+            if((mouseX > number_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION)) && (mouseX < number_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION))) {
+                if((mouseY > number_submenu_Y) && (mouseY < number_submenu_Y+ 5 + al_get_bitmap_height(mini_menu[0]))) {
+                    al_draw_rectangle(number_submenu_X + (i+1) * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y, number_submenu_X + (i+2) * al_get_bitmap_height(WALK_FOWARD_ACTION), number_submenu_Y + al_get_bitmap_height(mini_menu[0]), black, 3);
+                    menu_selected = 83 + i;
                     cout<<"print_secondary_menu() - menu_selected = "<<menu_selected<<endl;
                 }
             }
@@ -975,6 +1062,7 @@ void Interface :: print_merge_block(Block *b) {
 }
 //v3
 void Interface :: print_attribution_block(Block *b) {
+    int sensor = 999;
     if((mouseX > b->getX()) && (mouseX < (b->getX() + b->getWidth())) && (mouseY > b->getY()) && (mouseY < (b->getY() + b->getHeight()))) {
         if(black_sensor_menu_selected || color_sensor_menu_selected || ultrasonic_sensor_menu_selected || number_menu_selected || int_menu_selected || bool_menu_selected || logic_menu_selected) {
             al_draw_bitmap(ATTRIBUTION_BLOCK_IMG[0], b->getX(), b->getY(), 0);
@@ -1013,6 +1101,45 @@ void Interface :: print_attribution_block(Block *b) {
         if(b->returnStaticValue_2() != 999){
             al_draw_bitmap(SLOT_NUMBER[b->returnStaticValue_2()], b->getX()+113, b->getY()+8, 0);
             break;
+        }
+        if(b->returnStaticBoolValue_2() != 999){
+            al_draw_bitmap(MICRO_STATIC_BOOL[b->returnStaticBoolValue_2()], b->getX()+113, b->getY()+8, 0);
+            break;
+        }
+        if(b->returnSensorValue() != 999){
+            sensor = b->returnSensorValue();
+            switch(sensor){
+                case 1:
+                    al_draw_bitmap(MICRO_BLACK_SENSOR1, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 2:
+                    al_draw_bitmap(MICRO_BLACK_SENSOR2, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 3:
+                    al_draw_bitmap(MICRO_BLACK_SENSOR3, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 4:
+                    al_draw_bitmap(MICRO_BLACK_SENSOR4, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 5:
+                    al_draw_bitmap(MICRO_BLACK_SENSOR5, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 6:
+                    al_draw_bitmap(MICRO_COLOR_SENSOR1, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 7:
+                    al_draw_bitmap(MICRO_COLOR_SENSOR2, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 8:
+                    al_draw_bitmap(MICRO_ULTRASONIC_SENSOR1, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 9:
+                    al_draw_bitmap(MICRO_ULTRASONIC_SENSOR2, b->getX()+113, b->getY()+8, 0);
+                    break;
+                case 10:
+                    al_draw_bitmap(MICRO_ULTRASONIC_SENSOR3, b->getX()+113, b->getY()+8, 0);
+                    break;
+            }
         }
         i = i + 1;
     }
@@ -1068,6 +1195,10 @@ void Interface :: print_math_block(Block *b) {
             al_draw_bitmap(SLOT_NUMBER[b->returnStaticValue_2()], b->getX()+102, b->getY()+8, 0);
             break;
         }
+        if(b->returnStaticBoolValue_2() != 999){
+            al_draw_bitmap(MICRO_STATIC_BOOL[b->returnStaticBoolValue_2()], b->getX()+102, b->getY()+8, 0);
+            break;
+        }
         i = i + 1;
     }
     i = 0;
@@ -1082,6 +1213,10 @@ void Interface :: print_math_block(Block *b) {
         }
         if(b->returnStaticValue_4() != 999){
             al_draw_bitmap(SLOT_NUMBER[b->returnStaticValue_4()], b->getX()+190, b->getY()+8, 0);
+            break;
+        }
+        if(b->returnStaticBoolValue_4() != 999){
+            al_draw_bitmap(MICRO_STATIC_BOOL[b->returnStaticBoolValue_4()], b->getX()+190, b->getY()+8, 0);
             break;
         }
         i = i + 1;
@@ -1154,6 +1289,10 @@ void Interface :: print_new_conditional_block(Block *b) {
             al_draw_bitmap(MICRO_NUMBER[b->returnStaticValue_3()], b->getX()+113, b->getY()+8, 0);
             break;
         }
+        if(b->returnStaticBoolValue_3() != 999){
+            al_draw_bitmap(MICRO_STATIC_BOOL[b->returnStaticBoolValue_3()], b->getX()+113, b->getY()+8, 0);
+            break;
+        }
         i = i + 1;
     }
     i = 0;
@@ -1221,6 +1360,10 @@ void Interface :: print_while_block(Block *b) {
         }
         if(b->returnStaticValue_3() != 999){
             al_draw_bitmap(SLOT_NUMBER[b->returnStaticValue_3()], b->getX()+113, b->getY()+8, 0);
+            break;
+        }
+        if(b->returnStaticBoolValue_3() != 999){
+            al_draw_bitmap(MICRO_STATIC_BOOL[b->returnStaticBoolValue_3()], b->getX()+113, b->getY()+8, 0);
             break;
         }
         i = i + 1;
@@ -1477,6 +1620,12 @@ void Interface :: load_program_images() {
     load_bitmap(&SLOT_NUMBER[7], "../../GUI_files/images/variables_and_operators/micro_variables_and_operators/number_7.png");
     load_bitmap(&SLOT_NUMBER[8], "../../GUI_files/images/variables_and_operators/micro_variables_and_operators/number_8.png");
     load_bitmap(&SLOT_NUMBER[9], "../../GUI_files/images/variables_and_operators/micro_variables_and_operators/number_9.png");
+
+    load_bitmap(&MICRO_STATIC_BOOL[0], "../../GUI_files/images/variables_and_operators/micro_variables_and_operators/micro_static_false.png");
+    load_bitmap(&MICRO_STATIC_BOOL[1], "../../GUI_files/images/variables_and_operators/micro_variables_and_operators/micro_static_true.png");
+
+    load_bitmap(&STATIC_BOOL[0], "../../GUI_files/images/variables_and_operators/static_false.png");
+    load_bitmap(&STATIC_BOOL[1], "../../GUI_files/images/variables_and_operators/static_true.png");
 }
 void Interface :: destroy_program_images() {
     al_destroy_bitmap(play_button);
@@ -1604,17 +1753,19 @@ void Interface :: reset_dragging_variables() {
     dragging_bool_H = false;
     dragging_bool_I = false;
     dragging_bool_J = false;
-    dragging_equal = false; 
-    dragging_greater_equal = false; 
-    dragging_less_equal = false; 
-    dragging_greater = false; 
-    dragging_less = false; 
+    dragging_equal = false;
+    dragging_greater_equal = false;
+    dragging_less_equal = false;
+    dragging_greater = false;
+    dragging_less = false;
     dragging_unequal = false;
     dragging_add = false;
     dragging_div = false;
-    dragging_exponent = false; 
+    dragging_exponent = false;
     dragging_mult = false;
     dragging_sub = false;
+    dragging_static_false = false;
+    dragging_static_true = false;
 }
 void Interface :: check_dragging() {
 
@@ -1749,7 +1900,10 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de ATTRIBUTION
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    } else if((dragging_static_false == true) || (dragging_static_true == true)){
+                        //erro static bool para o slot 1 de ATTRIBUTION
+                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(1, int_var_list[0], NULL);
@@ -1771,27 +1925,27 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setFirstSlotAttr(1, int_var_list[8], NULL);
                     } else if(dragging_int_J == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(1, int_var_list[9], NULL);
-                    } 
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[0]);
-                    } else if(dragging_bool_B == true){  
+                    } else if(dragging_bool_B == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[1]);
-                    } else if(dragging_bool_C == true){  
+                    } else if(dragging_bool_C == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[2]);
-                    } else if(dragging_bool_D == true){  
+                    } else if(dragging_bool_D == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[3]);
-                    } else if(dragging_bool_E == true){  
+                    } else if(dragging_bool_E == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[4]);
-                    } else if(dragging_bool_F == true){  
+                    } else if(dragging_bool_F == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[5]);
-                    } else if(dragging_bool_G == true){  
+                    } else if(dragging_bool_G == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[6]);
-                    } else if(dragging_bool_H == true){  
+                    } else if(dragging_bool_H == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[7]);
-                    } else if(dragging_bool_I == true){  
+                    } else if(dragging_bool_I == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[8]);
-                    } else if(dragging_bool_J == true){  
+                    } else if(dragging_bool_J == true){
                         blocks_list_to_print[i]->setFirstSlotAttr(2, NULL, bool_var_list[9]);
                     }
                 }
@@ -1807,102 +1961,120 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de ATTRIBUTION
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
-                    //correto, implementar sensores
-                    //valores dos sensores só podem ser atribuidos a uma variavel atraves do bloco de ATTR
-                    else if((dragging_black_sensor1 == true) || (dragging_black_sensor2 == true) || (dragging_black_sensor3 == true)  || (dragging_black_sensor4 == true) || (dragging_black_sensor5 == true)){
-                        //Correto para o Attribution Block para ambas as variaveis int e bool, implementar por ultimo
-                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Correto, porem não finalizado.", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } else if((dragging_color_sensor1 == true) || (dragging_color_sensor2 == true)){
-                        //Correto para o Attribution Block para ambas as variaveis int e bool, implementar por ultimo
-                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Correto, porem não finalizado.", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } else if((dragging_ultrasonic_sensor1 == true) || (dragging_ultrasonic_sensor2 == true) || (dragging_ultrasonic_sensor3 == true)) {
-                        //Correto para o Attribution Block para ambas as variaveis int e bool, implementar por ultimo
-                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Correto, porem não finalizado.", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    }/* else if((dragging_number_0 == true) || (dragging_number_1 == true) || (dragging_number_2 == true) || (dragging_number_3 == true) || (dragging_number_4 == true) || (dragging_number_5 == true)) {
+                    }
+                    /* else if((dragging_number_0 == true) || (dragging_number_1 == true) || (dragging_number_2 == true) || (dragging_number_3 == true) || (dragging_number_4 == true) || (dragging_number_5 == true)) {
                         //Correto para o Attribution Block para ambas as variaveis int e bool, implementar
-                        
+
                     } else if((dragging_number_6 == true) || (dragging_number_7 == true) || (dragging_number_8 == true) || (dragging_number_9 == true)) {
                         //Correto para o Attribution Block para ambas as variaveis int e bool, implementar
-                        
+
                     } else if((dragging_int_A == true) || (dragging_int_B == true) || (dragging_int_C == true) || (dragging_int_D == true) || (dragging_int_E == true)) {
                         //Correto, variavel int
-                        
+
                     } else if((dragging_int_F == true) || (dragging_int_G == true) || (dragging_int_H == true) || (dragging_int_I == true) || (dragging_int_J == true)) {
                         //Correto, variavel int
-                        
+
                     } else if((dragging_bool_A == true) || (dragging_bool_B == true) || (dragging_bool_C == true) || (dragging_bool_D == true) || (dragging_bool_E == true)) {
                         //Correto, variavel bool
-                        
+
                     } else if((dragging_bool_F == true) || (dragging_bool_G == true) || (dragging_bool_H == true) || (dragging_bool_I == true) || (dragging_bool_J == true)) {
                         //Correto, variavel bool
-                        
-                    }*/ 
+
+                    }*/
                     //Variaveis INT
                     else if(dragging_int_A == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[0], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[0], NULL, 0, false);
                     } else if(dragging_int_B == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[1], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[1], NULL, 0, false);
                     } else if(dragging_int_C == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[2], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[2], NULL, 0, false);
                     } else if(dragging_int_D == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[3], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[3], NULL, 0, false);
                     } else if(dragging_int_E == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[4], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[4], NULL, 0, false);
                     } else if(dragging_int_F == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[5], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[5], NULL, 0, false);
                     } else if(dragging_int_G == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[6], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[6], NULL, 0, false);
                     } else if(dragging_int_H == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[7], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[7], NULL, 0, false);
                     } else if(dragging_int_I == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[8], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[8], NULL, 0, false);
                     } else if(dragging_int_J == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[9], NULL, 0);
-                    } 
+                        blocks_list_to_print[i]->setSecondSlotAttr(1, int_var_list[9], NULL, 0, false);
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[0], 0);
-                    } else if(dragging_bool_B == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[1], 0);
-                    } else if(dragging_bool_C == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[2], 0);
-                    } else if(dragging_bool_D == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[3], 0);
-                    } else if(dragging_bool_E == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[4], 0);
-                    } else if(dragging_bool_F == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[5], 0);
-                    } else if(dragging_bool_G == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[6], 0);
-                    } else if(dragging_bool_H == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[7], 0);
-                    } else if(dragging_bool_I == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[8], 0);
-                    } else if(dragging_bool_J == true){  
-                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[9], 0);
-                    } 
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[0], 0, false);
+                    } else if(dragging_bool_B == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[1], 0, false);
+                    } else if(dragging_bool_C == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[2], 0, false);
+                    } else if(dragging_bool_D == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[3], 0, false);
+                    } else if(dragging_bool_E == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[4], 0, false);
+                    } else if(dragging_bool_F == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[5], 0, false);
+                    } else if(dragging_bool_G == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[6], 0, false);
+                    } else if(dragging_bool_H == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[7], 0, false);
+                    } else if(dragging_bool_I == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[8], 0, false);
+                    } else if(dragging_bool_J == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(2, NULL, bool_var_list[9], 0, false);
+                    }
                     //Valores estaticos
                     else if(dragging_number_0 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 0, false);
                     } else if(dragging_number_1 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 1);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 1, false);
                     } else if(dragging_number_2 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 2);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 2, false);
                     } else if(dragging_number_3 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 3);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 3, false);
                     } else if(dragging_number_4 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 4);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 4, false);
                     } else if(dragging_number_5 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 5);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 5, false);
                     } else if(dragging_number_6 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 6);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 6, false);
                     } else if(dragging_number_7 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 7);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 7, false);
                     } else if(dragging_number_8 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 8);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 8, false);
                     } else if(dragging_number_9 == true) {
-                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 9);
+                        blocks_list_to_print[i]->setSecondSlotAttr(3, NULL, NULL, 9, false);
+                    }
+                    //Bool estatico
+                    else if(dragging_static_false == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(4, NULL, NULL, 999, false);
+                    } else if(dragging_static_true == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(4, NULL, NULL, 999, true);
+                    }
+                    //sensores implementados
+                    //valores dos sensores só podem ser atribuidos a uma variavel atraves do bloco de ATTR
+                    else if(dragging_black_sensor1 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 1, false);
+                    } else if(dragging_black_sensor2 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 2, false);
+                    } else if(dragging_black_sensor3 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 3, false);
+                    } else if(dragging_black_sensor4 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 4, false);
+                    } else if(dragging_black_sensor5 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 5, false);
+                    } else if(dragging_color_sensor1 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 6, false);
+                    } else if(dragging_color_sensor2 == true){
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 7, false);
+                    } else if(dragging_ultrasonic_sensor1 == true) {
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 8, false);
+                    } else if(dragging_ultrasonic_sensor2 == true) {
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 9, false);
+                    } else if(dragging_ultrasonic_sensor3 == true) {
+                        blocks_list_to_print[i]->setSecondSlotAttr(5, NULL, NULL, 10, false);
                     }
                 }
             }
@@ -1934,6 +2106,9 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de MATH
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
+                    } else if((dragging_static_false == true) || (dragging_static_true == true)){
+                        //erro static bool para o slot 1 de MATH
+                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
                     }
                     //Variaveis INT
                     else if(dragging_int_A == true){
@@ -1956,27 +2131,27 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setFirstSlotMath(1, int_var_list[8], NULL);
                     } else if(dragging_int_J == true){
                         blocks_list_to_print[i]->setFirstSlotMath(1, int_var_list[9], NULL);
-                    } 
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[0]);
-                    } else if(dragging_bool_B == true){  
+                    } else if(dragging_bool_B == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[1]);
-                    } else if(dragging_bool_C == true){  
+                    } else if(dragging_bool_C == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[2]);
-                    } else if(dragging_bool_D == true){  
+                    } else if(dragging_bool_D == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[3]);
-                    } else if(dragging_bool_E == true){  
+                    } else if(dragging_bool_E == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[4]);
-                    } else if(dragging_bool_F == true){  
+                    } else if(dragging_bool_F == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[5]);
-                    } else if(dragging_bool_G == true){  
+                    } else if(dragging_bool_G == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[6]);
-                    } else if(dragging_bool_H == true){  
+                    } else if(dragging_bool_H == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[7]);
-                    } else if(dragging_bool_I == true){  
+                    } else if(dragging_bool_I == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[8]);
-                    } else if(dragging_bool_J == true){  
+                    } else if(dragging_bool_J == true){
                         blocks_list_to_print[i]->setFirstSlotMath(2, NULL, bool_var_list[9]);
                     }
                 }
@@ -1992,7 +2167,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro operando no slot incorreto
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //MATH_BLOCK nao lida com sensores
                     else if((dragging_black_sensor1 == true) || (dragging_black_sensor2 == true) || (dragging_black_sensor3 == true)  || (dragging_black_sensor4 == true) || (dragging_black_sensor5 == true)){
                         //erro sensor no MATH_BLOCK
@@ -2003,72 +2178,78 @@ void Interface :: check_dragging() {
                     } else if((dragging_ultrasonic_sensor1 == true) || (dragging_ultrasonic_sensor2 == true) || (dragging_ultrasonic_sensor3 == true)) {
                         //erro sensor no MATH_BLOCK
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[0], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[0], NULL, 0, false);
                     } else if(dragging_int_B == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[1], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[1], NULL, 0, false);
                     } else if(dragging_int_C == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[2], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[2], NULL, 0, false);
                     } else if(dragging_int_D == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[3], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[3], NULL, 0, false);
                     } else if(dragging_int_E == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[4], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[4], NULL, 0, false);
                     } else if(dragging_int_F == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[5], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[5], NULL, 0, false);
                     } else if(dragging_int_G == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[6], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[6], NULL, 0, false);
                     } else if(dragging_int_H == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[7], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[7], NULL, 0, false);
                     } else if(dragging_int_I == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[8], NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[8], NULL, 0, false);
                     } else if(dragging_int_J == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[9], NULL, 0);
-                    } 
+                        blocks_list_to_print[i]->setSecondSlotMath(1, int_var_list[9], NULL, 0, false);
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[0], 0);
-                    } else if(dragging_bool_B == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[1], 0);
-                    } else if(dragging_bool_C == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[2], 0);
-                    } else if(dragging_bool_D == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[3], 0);
-                    } else if(dragging_bool_E == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[4], 0);
-                    } else if(dragging_bool_F == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[5], 0);
-                    } else if(dragging_bool_G == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[6], 0);
-                    } else if(dragging_bool_H == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[7], 0);
-                    } else if(dragging_bool_I == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[8], 0);
-                    } else if(dragging_bool_J == true){  
-                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[9], 0);
-                    } 
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[0], 0, false);
+                    } else if(dragging_bool_B == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[1], 0, false);
+                    } else if(dragging_bool_C == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[2], 0, false);
+                    } else if(dragging_bool_D == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[3], 0, false);
+                    } else if(dragging_bool_E == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[4], 0, false);
+                    } else if(dragging_bool_F == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[5], 0, false);
+                    } else if(dragging_bool_G == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[6], 0, false);
+                    } else if(dragging_bool_H == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[7], 0, false);
+                    } else if(dragging_bool_I == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[8], 0, false);
+                    } else if(dragging_bool_J == true){
+                        blocks_list_to_print[i]->setSecondSlotMath(2, NULL, bool_var_list[9], 0, false);
+                    }
                     //Valores estaticos
                     else if(dragging_number_0 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 0);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 0, false);
                     } else if(dragging_number_1 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 1);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 1, false);
                     } else if(dragging_number_2 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 2);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 2, false);
                     } else if(dragging_number_3 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 3);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 3, false);
                     } else if(dragging_number_4 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 4);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 4, false);
                     } else if(dragging_number_5 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 5);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 5, false);
                     } else if(dragging_number_6 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 6);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 6, false);
                     } else if(dragging_number_7 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 7);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 7, false);
                     } else if(dragging_number_8 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 8);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 8, false);
                     } else if(dragging_number_9 == true) {
-                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 9);
+                        blocks_list_to_print[i]->setSecondSlotMath(3, NULL, NULL, 9, false);
+                    }
+                    //Bool estaticos
+                    else if(dragging_static_false == true) {
+                        blocks_list_to_print[i]->setSecondSlotMath(4, NULL, NULL, 0, false);
+                    } else if(dragging_static_true == true) {
+                        blocks_list_to_print[i]->setSecondSlotMath(4, NULL, NULL, 0, true);
                     }
                 }
                 //TERCEIRO SLOT MATH
@@ -2092,7 +2273,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_walk_foward == true) || (dragging_turn_left == true) || (dragging_turn_right == true)) {
                         //erro
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //incorreto, variaveis no slot de operandos
                     else if((dragging_int_A == true) || (dragging_int_B == true) || (dragging_int_C == true) || (dragging_int_D == true) || (dragging_int_E == true)) {
                         //incorreto, variaveis no slot de operandos
@@ -2106,7 +2287,10 @@ void Interface :: check_dragging() {
                     } else if((dragging_bool_F == true) || (dragging_bool_G == true) || (dragging_bool_H == true) || (dragging_bool_I == true) || (dragging_bool_J == true)) {
                         //incorreto, variaveis no slot de operandos
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    } else if((dragging_static_false == true) || (dragging_static_true == true)){
+                        //erro static bool para o slot 3 de MATH
+                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
+                    }
                     //Operadores matematicos
                     else if(dragging_add == true){
                         blocks_list_to_print[i]->setThirdSlotMath(4, 0);
@@ -2119,7 +2303,7 @@ void Interface :: check_dragging() {
                     } else if(dragging_exponent == true){
                         blocks_list_to_print[i]->setThirdSlotMath(4, 4);
                     }
-                    //Operadores logicos 
+                    //Operadores logicos
                     else if(dragging_equal == true){
                         blocks_list_to_print[i]->setThirdSlotMath(5, 0);
                     } else if(dragging_unequal == true){
@@ -2132,7 +2316,7 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setThirdSlotMath(5, 4);
                     } else if(dragging_less_equal == true){
                         blocks_list_to_print[i]->setThirdSlotMath(5, 5);
-                    } 
+                    }
                 }
                 //QUARTO SLOT MATH
                 if((mouseX > blocks_list_to_print[i]->getX() + (4 * blocks_list_to_print[i]->getWidth()/5)) && (mouseX < (blocks_list_to_print[i]->getX() + (5 * blocks_list_to_print[i]->getWidth()/5))) && (mouseY > blocks_list_to_print[i]->getY()) && (mouseY < (blocks_list_to_print[i]->getY() + blocks_list_to_print[i]->getHeight()))) {
@@ -2146,7 +2330,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro operando no slot incorreto
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //MATH_BLOCK nao lida com sensores
                     else if((dragging_black_sensor1 == true) || (dragging_black_sensor2 == true) || (dragging_black_sensor3 == true)  || (dragging_black_sensor4 == true) || (dragging_black_sensor5 == true)){
                         //erro sensor no MATH_BLOCK
@@ -2157,71 +2341,79 @@ void Interface :: check_dragging() {
                     } else if((dragging_ultrasonic_sensor1 == true) || (dragging_ultrasonic_sensor2 == true) || (dragging_ultrasonic_sensor3 == true)) {
                         //erro sensor no MATH_BLOCK
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[0], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[0], NULL, 0, false);
                     } else if(dragging_int_B == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[1], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[1], NULL, 0, false);
                     } else if(dragging_int_C == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[2], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[2], NULL, 0, false);
                     } else if(dragging_int_D == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[3], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[3], NULL, 0, false);
                     } else if(dragging_int_E == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[4], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[4], NULL, 0, false);
                     } else if(dragging_int_F == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[5], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[5], NULL, 0, false);
                     } else if(dragging_int_G == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[6], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[6], NULL, 0, false);
                     } else if(dragging_int_H == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[7], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[7], NULL, 0, false);
                     } else if(dragging_int_I == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[8], NULL, 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[8], NULL, 0, false);
                     } else if(dragging_int_J == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[9], NULL, 0);
-                    } 
+                        blocks_list_to_print[i]->setFourthSlotMath(1, int_var_list[9], NULL, 0, false);
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[0], 0);
-                    } else if(dragging_bool_B == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[1], 0);
-                    } else if(dragging_bool_C == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[2], 0);
-                    } else if(dragging_bool_D == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[3], 0);
-                    } else if(dragging_bool_E == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[4], 0);
-                    } else if(dragging_bool_F == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[5], 0);
-                    } else if(dragging_bool_G == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[6], 0);
-                    } else if(dragging_bool_H == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[7], 0);
-                    } else if(dragging_bool_I == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[8], 0);
-                    } else if(dragging_bool_J == true){  
-                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[9], 0);
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[0], 0, false);
+                    } else if(dragging_bool_B == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[1], 0, false);
+                    } else if(dragging_bool_C == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[2], 0, false);
+                    } else if(dragging_bool_D == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[3], 0, false);
+                    } else if(dragging_bool_E == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[4], 0, false);
+                    } else if(dragging_bool_F == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[5], 0, false);
+                    } else if(dragging_bool_G == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[6], 0, false);
+                    } else if(dragging_bool_H == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[7], 0, false);
+                    } else if(dragging_bool_I == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[8], 0, false);
+                    } else if(dragging_bool_J == true){
+                        blocks_list_to_print[i]->setFourthSlotMath(2, NULL, bool_var_list[9], 0, false);
+                    //valores estaticos
                     } else if(dragging_number_0 == true) {
                         //erro, ZERO
-                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Evite usar o Zero neste Slot.", "Hmm..", ALLEGRO_MESSAGEBOX_ERROR);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 0, false);
+                        //al_show_native_message_box(display, "Fluxprog", "ERRO", "Evite usar o Zero neste Slot.", "Hmm..", ALLEGRO_MESSAGEBOX_ERROR);
                     } else if(dragging_number_1 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 1);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 1, false);
                     } else if(dragging_number_2 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 2);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 2, false);
                     } else if(dragging_number_3 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 3);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 3, false);
                     } else if(dragging_number_4 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 4);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 4, false);
                     } else if(dragging_number_5 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 5);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 5, false);
                     } else if(dragging_number_6 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 6);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 6, false);
                     } else if(dragging_number_7 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 7);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 7, false);
                     } else if(dragging_number_8 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 8);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 8, false);
                     } else if(dragging_number_9 == true) {
-                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 9);
+                        blocks_list_to_print[i]->setFourthSlotMath(3, NULL, NULL, 9, false);
+                    }
+                    //Bool estatico
+                    else if(dragging_static_false == true) {
+                        blocks_list_to_print[i]->setFourthSlotMath(4, NULL, NULL, 0, false);
+                    } else if(dragging_static_true == true) {
+                        blocks_list_to_print[i]->setFourthSlotMath(4, NULL, NULL, 0, true);
                     }
                 }
             }
@@ -2253,7 +2445,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de CONDITIONAL
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(1, int_var_list[0], NULL);
@@ -2275,27 +2467,27 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setFirstSlotConditional(1, int_var_list[8], NULL);
                     } else if(dragging_int_J == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(1, int_var_list[9], NULL);
-                    } 
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[0]);
-                    } else if(dragging_bool_B == true){  
+                    } else if(dragging_bool_B == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[1]);
-                    } else if(dragging_bool_C == true){  
+                    } else if(dragging_bool_C == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[2]);
-                    } else if(dragging_bool_D == true){  
+                    } else if(dragging_bool_D == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[3]);
-                    } else if(dragging_bool_E == true){  
+                    } else if(dragging_bool_E == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[4]);
-                    } else if(dragging_bool_F == true){  
+                    } else if(dragging_bool_F == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[5]);
-                    } else if(dragging_bool_G == true){  
+                    } else if(dragging_bool_G == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[6]);
-                    } else if(dragging_bool_H == true){  
+                    } else if(dragging_bool_H == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[7]);
-                    } else if(dragging_bool_I == true){  
+                    } else if(dragging_bool_I == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[8]);
-                    } else if(dragging_bool_J == true){  
+                    } else if(dragging_bool_J == true){
                         blocks_list_to_print[i]->setFirstSlotConditional(2, NULL, bool_var_list[9]);
                     }
                 }
@@ -2320,7 +2512,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_walk_foward == true) || (dragging_turn_left == true) || (dragging_turn_right == true)) {
                         //erro
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //incorreto, variaveis no slot de operandos
                     else if((dragging_int_A == true) || (dragging_int_B == true) || (dragging_int_C == true) || (dragging_int_D == true) || (dragging_int_E == true)) {
                         //incorreto, variaveis no slot de operandos
@@ -2337,8 +2529,8 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de CONDITIONAL
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
-                    //Operadores logicos 
+                    }
+                    //Operadores logicos
                     else if(dragging_equal == true){
                         blocks_list_to_print[i]->setSecondSlotConditional(0);
                     } else if(dragging_unequal == true){
@@ -2351,7 +2543,7 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setSecondSlotConditional(4);
                     } else if(dragging_less_equal == true){
                         blocks_list_to_print[i]->setSecondSlotConditional(5);
-                    } 
+                    }
                 }
                 //TERCEIRO SLOT CONDITIONAL
                 if((mouseX > blocks_list_to_print[i]->getX() + (2 * blocks_list_to_print[i]->getWidth()/3)) && (mouseX < (blocks_list_to_print[i]->getX() + (3 * blocks_list_to_print[i]->getWidth()/3))) && (mouseY > blocks_list_to_print[i]->getY()) && (mouseY < (blocks_list_to_print[i]->getY() + blocks_list_to_print[i]->getHeight()))) {
@@ -2365,7 +2557,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro operando no slot incorreto
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //CONDITIONAL_BLOCK nao lida com sensores
                     else if((dragging_black_sensor1 == true) || (dragging_black_sensor2 == true) || (dragging_black_sensor3 == true)  || (dragging_black_sensor4 == true) || (dragging_black_sensor5 == true)){
                         //erro sensor no CONDITIONAL_BLOCK
@@ -2376,71 +2568,77 @@ void Interface :: check_dragging() {
                     } else if((dragging_ultrasonic_sensor1 == true) || (dragging_ultrasonic_sensor2 == true) || (dragging_ultrasonic_sensor3 == true)) {
                         //erro sensor no CONDITIONAL_BLOCK
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[0], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[0], NULL, 0, false);
                     } else if(dragging_int_B == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[1], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[1], NULL, 0, false);
                     } else if(dragging_int_C == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[2], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[2], NULL, 0, false);
                     } else if(dragging_int_D == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[3], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[3], NULL, 0, false);
                     } else if(dragging_int_E == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[4], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[4], NULL, 0, false);
                     } else if(dragging_int_F == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[5], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[5], NULL, 0, false);
                     } else if(dragging_int_G == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[6], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[6], NULL, 0, false);
                     } else if(dragging_int_H == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[7], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[7], NULL, 0, false);
                     } else if(dragging_int_I == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[8], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[8], NULL, 0, false);
                     } else if(dragging_int_J == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[9], NULL, 0);
-                    } 
+                        blocks_list_to_print[i]->setThirdSlotConditional(1, int_var_list[9], NULL, 0, false);
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[0], 0);
-                    } else if(dragging_bool_B == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[1], 0);
-                    } else if(dragging_bool_C == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[2], 0);
-                    } else if(dragging_bool_D == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[3], 0);
-                    } else if(dragging_bool_E == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[4], 0);
-                    } else if(dragging_bool_F == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[5], 0);
-                    } else if(dragging_bool_G == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[6], 0);
-                    } else if(dragging_bool_H == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[7], 0);
-                    } else if(dragging_bool_I == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[8], 0);
-                    } else if(dragging_bool_J == true){  
-                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[9], 0);
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[0], 0, false);
+                    } else if(dragging_bool_B == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[1], 0, false);
+                    } else if(dragging_bool_C == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[2], 0, false);
+                    } else if(dragging_bool_D == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[3], 0, false);
+                    } else if(dragging_bool_E == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[4], 0, false);
+                    } else if(dragging_bool_F == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[5], 0, false);
+                    } else if(dragging_bool_G == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[6], 0, false);
+                    } else if(dragging_bool_H == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[7], 0, false);
+                    } else if(dragging_bool_I == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[8], 0, false);
+                    } else if(dragging_bool_J == true){
+                        blocks_list_to_print[i]->setThirdSlotConditional(2, NULL, bool_var_list[9], 0, false);
                     } else if(dragging_number_0 == true) {
                         //erro, ZERO
-                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Evite usar o Zero neste Slot.", "Hmm..", ALLEGRO_MESSAGEBOX_ERROR);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 0, false);
                     } else if(dragging_number_1 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 1);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 1, false);
                     } else if(dragging_number_2 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 2);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 2, false);
                     } else if(dragging_number_3 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 3);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 3, false);
                     } else if(dragging_number_4 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 4);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 4, false);
                     } else if(dragging_number_5 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 5);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 5, false);
                     } else if(dragging_number_6 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 6);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 6, false);
                     } else if(dragging_number_7 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 7);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 7, false);
                     } else if(dragging_number_8 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 8);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 8, false);
                     } else if(dragging_number_9 == true) {
-                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 9);
+                        blocks_list_to_print[i]->setThirdSlotConditional(3, NULL, NULL, 9, false);
+                    }
+                    //Bool estatico
+                    else if(dragging_static_false == true) {
+                        blocks_list_to_print[i]->setThirdSlotConditional(4, NULL, NULL, 0, false);
+                    } else if(dragging_static_true == true) {
+                        blocks_list_to_print[i]->setThirdSlotConditional(4, NULL, NULL, 0, true);
                     }
                 }
             }
@@ -2472,7 +2670,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de WHILE
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(1, int_var_list[0], NULL);
@@ -2494,27 +2692,27 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setFirstSlotWhile(1, int_var_list[8], NULL);
                     } else if(dragging_int_J == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(1, int_var_list[9], NULL);
-                    } 
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[0]);
-                    } else if(dragging_bool_B == true){  
+                    } else if(dragging_bool_B == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[1]);
-                    } else if(dragging_bool_C == true){  
+                    } else if(dragging_bool_C == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[2]);
-                    } else if(dragging_bool_D == true){  
+                    } else if(dragging_bool_D == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[3]);
-                    } else if(dragging_bool_E == true){  
+                    } else if(dragging_bool_E == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[4]);
-                    } else if(dragging_bool_F == true){  
+                    } else if(dragging_bool_F == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[5]);
-                    } else if(dragging_bool_G == true){  
+                    } else if(dragging_bool_G == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[6]);
-                    } else if(dragging_bool_H == true){  
+                    } else if(dragging_bool_H == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[7]);
-                    } else if(dragging_bool_I == true){  
+                    } else if(dragging_bool_I == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[8]);
-                    } else if(dragging_bool_J == true){  
+                    } else if(dragging_bool_J == true){
                         blocks_list_to_print[i]->setFirstSlotWhile(2, NULL, bool_var_list[9]);
                     }
                 }
@@ -2539,7 +2737,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_walk_foward == true) || (dragging_turn_left == true) || (dragging_turn_right == true)) {
                         //erro
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //incorreto, variaveis no slot de operandos
                     else if((dragging_int_A == true) || (dragging_int_B == true) || (dragging_int_C == true) || (dragging_int_D == true) || (dragging_int_E == true)) {
                         //incorreto, variaveis no slot de operandos
@@ -2556,8 +2754,8 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro math para o bloco de WHILE
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
-                    //Operadores logicos 
+                    }
+                    //Operadores logicos
                     else if(dragging_equal == true){
                         blocks_list_to_print[i]->setSecondSlotWhile(0);
                     } else if(dragging_unequal == true){
@@ -2570,7 +2768,7 @@ void Interface :: check_dragging() {
                         blocks_list_to_print[i]->setSecondSlotWhile(4);
                     } else if(dragging_less_equal == true){
                         blocks_list_to_print[i]->setSecondSlotWhile(5);
-                    } 
+                    }
                 }
                 //TERCEIRO SLOT WHILE
                 if((mouseX > blocks_list_to_print[i]->getX() + (2 * blocks_list_to_print[i]->getWidth()/3)) && (mouseX < (blocks_list_to_print[i]->getX() + (3 * blocks_list_to_print[i]->getWidth()/3))) && (mouseY > blocks_list_to_print[i]->getY()) && (mouseY < (blocks_list_to_print[i]->getY() + blocks_list_to_print[i]->getHeight()))) {
@@ -2584,7 +2782,7 @@ void Interface :: check_dragging() {
                     } else if((dragging_add == true) || (dragging_sub == true) || (dragging_mult == true) || (dragging_div == true) || (dragging_exponent == true)) {
                         //erro operando no slot incorreto
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //WHILE_BLOCK nao lida com sensores
                     else if((dragging_black_sensor1 == true) || (dragging_black_sensor2 == true) || (dragging_black_sensor3 == true)  || (dragging_black_sensor4 == true) || (dragging_black_sensor5 == true)){
                         //erro sensor no WHILE_BLOCK
@@ -2595,71 +2793,77 @@ void Interface :: check_dragging() {
                     } else if((dragging_ultrasonic_sensor1 == true) || (dragging_ultrasonic_sensor2 == true) || (dragging_ultrasonic_sensor3 == true)) {
                         //erro sensor no WHILE_BLOCK
                         al_show_native_message_box(display, "Fluxprog", "ERRO", "Definir Erro", "Ok", ALLEGRO_MESSAGEBOX_ERROR);
-                    } 
+                    }
                     //Variaveis INT
                     else if(dragging_int_A == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[0], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[0], NULL, 0, false);
                     } else if(dragging_int_B == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[1], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[1], NULL, 0, false);
                     } else if(dragging_int_C == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[2], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[2], NULL, 0, false);
                     } else if(dragging_int_D == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[3], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[3], NULL, 0, false);
                     } else if(dragging_int_E == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[4], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[4], NULL, 0, false);
                     } else if(dragging_int_F == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[5], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[5], NULL, 0, false);
                     } else if(dragging_int_G == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[6], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[6], NULL, 0, false);
                     } else if(dragging_int_H == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[7], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[7], NULL, 0, false);
                     } else if(dragging_int_I == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[8], NULL, 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[8], NULL, 0, false);
                     } else if(dragging_int_J == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[9], NULL, 0);
-                    } 
+                        blocks_list_to_print[i]->setThirdSlotWhile(1, int_var_list[9], NULL, 0, false);
+                    }
                     //Variaveis BOOL
                     else if(dragging_bool_A == true){
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[0], 0);
-                    } else if(dragging_bool_B == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[1], 0);
-                    } else if(dragging_bool_C == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[2], 0);
-                    } else if(dragging_bool_D == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[3], 0);
-                    } else if(dragging_bool_E == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[4], 0);
-                    } else if(dragging_bool_F == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[5], 0);
-                    } else if(dragging_bool_G == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[6], 0);
-                    } else if(dragging_bool_H == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[7], 0);
-                    } else if(dragging_bool_I == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[8], 0);
-                    } else if(dragging_bool_J == true){  
-                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[9], 0);
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[0], 0, false);
+                    } else if(dragging_bool_B == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[1], 0, false);
+                    } else if(dragging_bool_C == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[2], 0, false);
+                    } else if(dragging_bool_D == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[3], 0, false);
+                    } else if(dragging_bool_E == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[4], 0, false);
+                    } else if(dragging_bool_F == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[5], 0, false);
+                    } else if(dragging_bool_G == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[6], 0, false);
+                    } else if(dragging_bool_H == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[7], 0, false);
+                    } else if(dragging_bool_I == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[8], 0, false);
+                    } else if(dragging_bool_J == true){
+                        blocks_list_to_print[i]->setThirdSlotWhile(2, NULL, bool_var_list[9], 0, false);
                     } else if(dragging_number_0 == true) {
                         //erro, ZERO
-                        al_show_native_message_box(display, "Fluxprog", "ERRO", "Evite usar o Zero neste Slot.", "Hmm..", ALLEGRO_MESSAGEBOX_ERROR);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 0, false);
                     } else if(dragging_number_1 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 1);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 1, false);
                     } else if(dragging_number_2 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 2);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 2, false);
                     } else if(dragging_number_3 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 3);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 3, false);
                     } else if(dragging_number_4 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 4);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 4, false);
                     } else if(dragging_number_5 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 5);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 5, false);
                     } else if(dragging_number_6 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 6);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 6, false);
                     } else if(dragging_number_7 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 7);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 7, false);
                     } else if(dragging_number_8 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 8);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 8, false);
                     } else if(dragging_number_9 == true) {
-                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 9);
+                        blocks_list_to_print[i]->setThirdSlotWhile(3, NULL, NULL, 9, false);
+                    }
+                    //Bool estatico
+                    else if(dragging_static_false == true) {
+                        blocks_list_to_print[i]->setThirdSlotWhile(4, NULL, NULL, 0, false);
+                    } else if(dragging_static_true == true) {
+                        blocks_list_to_print[i]->setThirdSlotWhile(4, NULL, NULL, 0, true);
                     }
                 }
             }
@@ -2830,6 +3034,12 @@ void Interface :: draw_dragging() {
     if(dragging_sub == true) {
         al_draw_bitmap(MATH_OPERATOR_IMG[4], mouseX-20, mouseY-20, 0);
     }
+    if(dragging_static_false == true) {
+        al_draw_bitmap(STATIC_BOOL[0], mouseX-20, mouseY-20, 0);
+    }
+    if(dragging_static_true == true) {
+        al_draw_bitmap(STATIC_BOOL[1], mouseX-20, mouseY-20, 0);
+    }
 }
 void Interface :: check_mouse_on_menus() {
     menu1_X_limit = 14 + 6*al_get_bitmap_width(play_button);
@@ -2841,7 +3051,7 @@ void Interface :: check_mouse_on_menus() {
     menu2_X_limit = al_get_bitmap_width(WALK_FOWARD_ACTION);
 
     menu_blocks_Y_begin = 4 + al_get_bitmap_height(play_button);
-    menu_blocks_Y_limit = menu1_Y_limit + 6*al_get_bitmap_height(WALK_FOWARD_ACTION);
+    menu_blocks_Y_limit = menu1_Y_limit + 3*al_get_bitmap_height(WALK_FOWARD_ACTION);
 
     menu_sensors_Y_begin = menu_blocks_Y_limit;
     menu_sensors_Y_limit = menu_sensors_Y_begin + 3*al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
@@ -2854,10 +3064,10 @@ void Interface :: check_mouse_on_menus() {
 
     //v3
     menu_var_and_symbols_y_begin = menu_extra_Y_limit;
-    menu_var_and_symbols_y_limit = menu_var_and_symbols_y_begin + 3*al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
+    menu_var_and_symbols_y_limit = menu_var_and_symbols_y_begin + 2*al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
 
     menu_new_blocks_y_begin = menu_var_and_symbols_y_limit;
-    menu_new_blocks_y_limit = menu_var_and_symbols_y_limit + 4*al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
+    menu_new_blocks_y_limit = menu_var_and_symbols_y_limit + 2*al_get_bitmap_height(WALK_FOWARD_ACTION)+10;
 
 
     //se o mouse não está sobre os menus seta a variável de teste para zero
@@ -2867,10 +3077,10 @@ void Interface :: check_mouse_on_menus() {
         } else if((mouseX < menu_connect_X_limit) && (mouseX > menu_connect_X_begin)) {
             //menu conectar
         } else {
-            //cout<<"check_mouse_on_menus() - caso 1 - menu_selected = "<<menu_selected<<endl;
+            cout<<"check_mouse_on_menus() - caso 1 - menu_selected = "<<menu_selected<<endl;
             menu_selected = 0;
         }
-    } else if(mouseX < menu2_X_limit) {
+    } else if(mouseX < 2*menu2_X_limit) {
         if((mouseY > menu_blocks_Y_begin) && (mouseY < menu_blocks_Y_limit)) {
             //menu de blocos
         } else if((mouseY > menu_sensors_Y_begin) && (mouseY < menu_sensors_Y_limit)) {
@@ -2879,46 +3089,50 @@ void Interface :: check_mouse_on_menus() {
             //menu de acoes
         } else if((mouseY > menu_extra_Y_begin) && (mouseY < menu_extra_Y_limit)) {
             //menu extra
-        } 
+        }
         //v3
         else if((mouseY > menu_var_and_symbols_y_begin) && (mouseY < menu_var_and_symbols_y_limit)) {
             //menu variaveis e simbolos
-        } 
+        }
         else if((mouseY > menu_new_blocks_y_begin) && (mouseY < menu_new_blocks_y_limit)) {
             //menu blocos novos
-        } 
+        }
         else {
-            //cout<<"check_mouse_on_menus() - caso 2 - menu_selected = "<<menu_selected<<endl;
+            cout<<"check_mouse_on_menus() - caso 2 - menu_selected = "<<menu_selected<<endl;
             //cout<<"check_mouse_on_menus() - caso 2 - menu_extra_Y_begin = "<<menu_extra_Y_begin<<endl;
             //cout<<"check_mouse_on_menus() - caso 2 - menu_var_and_symbols_y_begin = "<<menu_var_and_symbols_y_begin<<endl;
             //cout<<"check_mouse_on_menus() - caso 2 - menu_new_blocks_y_begin = "<<menu_new_blocks_y_begin<<endl;
             menu_selected = 0;
         }
-    } else if((black_sensor_menu_selected == true) && ((mouseX < 6*menu2_X_limit) && (mouseY > menu_sensors_Y_begin) && (mouseY < (menu_sensors_Y_begin+al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+    } else if((black_sensor_menu_selected == true) && ((mouseX < 7*menu2_X_limit) && (mouseY > menu_sensors_Y_begin) && (mouseY < (menu_sensors_Y_begin+al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu sensor de fita
-    } else if((color_sensor_menu_selected == true) && ((mouseX < 3*menu2_X_limit) && (mouseY > (menu_sensors_Y_begin+al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_sensors_Y_begin+2*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+    } else if((color_sensor_menu_selected == true) && ((mouseX < 4*menu2_X_limit) && (mouseY > (menu_sensors_Y_begin+al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_sensors_Y_begin+2*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu sensor de cor
-    } else if((ultrasonic_sensor_menu_selected == true) && ((mouseX < 4*menu2_X_limit) && (mouseY > (menu_sensors_Y_begin+2*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_sensors_Y_begin+3*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+    } else if((ultrasonic_sensor_menu_selected == true) && ((mouseX < 5*menu2_X_limit) && (mouseY > (menu_sensors_Y_begin+2*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_sensors_Y_begin+3*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu sensor de ultrassom
-    } else if((number_menu_selected == true) && ((mouseX < 11*menu2_X_limit) && (mouseY > (menu_extra_Y_begin+0*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_extra_Y_begin+1*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+    } else if((number_menu_selected == true) && ((mouseX < 12*menu2_X_limit) && (mouseY > (menu_extra_Y_begin+0*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_extra_Y_begin+1*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu sensor de numero
-        //cout<<"check_mouse_on_menus() - submenu sensor de numero"<<endl;
-    } 
+        cout<<"check_mouse_on_menus() - submenu sensor de numero"<<endl;
+    }
+    else if((static_bool_menu_selected == true) && ((mouseX < 4*menu2_X_limit) && (mouseY > (menu_extra_Y_begin+0*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_extra_Y_begin+1*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+        //submenu sensor de numero
+        cout<<"check_mouse_on_menus() - submenu sensor de numero"<<endl;
+    }
     //v3
-    else if((int_menu_selected == true) && ((mouseX < 10*menu2_X_limit) && (mouseY > (menu_var_and_symbols_y_begin+0*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_var_and_symbols_y_begin+1*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+    else if((int_menu_selected == true) && ((mouseX < 11*menu2_X_limit) && (mouseY > (menu_var_and_symbols_y_begin+0*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_var_and_symbols_y_begin+1*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu variaveis int
-        //cout<<"check_mouse_on_menus() - submenu variaveis int"<<endl;
-    } 
-    else if((bool_menu_selected == true) && ((mouseX < 10*menu2_X_limit) && (mouseY > (menu_var_and_symbols_y_begin+1*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_var_and_symbols_y_begin+2*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+        cout<<"check_mouse_on_menus() - submenu variaveis int"<<endl;
+    }
+    else if((bool_menu_selected == true) && ((mouseX < 11*menu2_X_limit) && (mouseY > (menu_var_and_symbols_y_begin+0*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_var_and_symbols_y_begin+1*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu variaveis bool
-        //cout<<"check_mouse_on_menus() - submenu variaveis bool"<<endl;
-    } 
-    else if((logic_menu_selected == true) && ((mouseX < 12*menu2_X_limit) && (mouseY > (menu_var_and_symbols_y_begin+2*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_var_and_symbols_y_begin+3*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
+        cout<<"check_mouse_on_menus() - submenu variaveis bool"<<endl;
+    }
+    else if((logic_menu_selected == true) && ((mouseX < 13*menu2_X_limit) && (mouseY > (menu_var_and_symbols_y_begin+1*al_get_bitmap_width(WALK_FOWARD_ACTION))) && (mouseY < (menu_var_and_symbols_y_begin+2*al_get_bitmap_height(WALK_FOWARD_ACTION))))) {
         //submenu logica e matematica
-        //cout<<"check_mouse_on_menus() - submenu logica e matematica"<<endl;
-    } 
+        cout<<"check_mouse_on_menus() - submenu logica e matematica"<<endl;
+    }
     else {
-        //cout<<"check_mouse_on_menus()- caso 3 - menu_selected = "<<menu_selected<<endl;
+        cout<<"check_mouse_on_menus()- caso 3 - menu_selected = "<<menu_selected<<endl;
         menu_selected = 0;
     }
 }
@@ -2972,8 +3186,8 @@ void Interface :: print_list_of_blocks() {
             if(blocks_list_to_print[i]->getDragging() == true) {
                 blocks_list_to_print[i]->setX(mouseX - mouse_aux_x);
                 blocks_list_to_print[i]->setY(mouseY - mouse_aux_y);
-            } else if(blocks_list_to_print[i]->getX() <= menu2_X_limit) {
-                blocks_list_to_print[i]->setX(menu2_X_limit + 20);
+            } else if(blocks_list_to_print[i]->getX() <= 2*menu2_X_limit) {
+                blocks_list_to_print[i]->setX(2*menu2_X_limit + 20);
             }
             if((blocks_list_to_print[i]->getY() <= menu1_Y_limit) && (blocks_list_to_print[i]->getDragging() == true)){
                 blocks_list_to_print[i]->setY(menu1_Y_limit);
@@ -3710,97 +3924,103 @@ void Interface :: check_menu_selected() {
             break;
         case 44: // INT
             dragging_int_A = true;
-            break;    
+            break;
         case 45:
             dragging_int_B = true;
-            break;    
+            break;
         case 46:
             dragging_int_C = true;
-            break;    
+            break;
         case 47:
             dragging_int_D = true;
-            break;    
+            break;
         case 48:
             dragging_int_E = true;
-            break;    
+            break;
         case 49:
             dragging_int_F = true;
-            break;    
+            break;
         case 50:
             dragging_int_G = true;
-            break;    
+            break;
         case 51:
             dragging_int_H = true;
-            break;    
+            break;
         case 52:
             dragging_int_I = true;
-            break;    
+            break;
         case 53:
             dragging_int_J = true;
-            break;    
+            break;
         case 54: // BOOL
             dragging_bool_A = true;
-            break;    
-        case 55: 
+            break;
+        case 55:
             dragging_bool_B = true;
-            break;    
-        case 56: 
+            break;
+        case 56:
             dragging_bool_C = true;
-            break;    
-        case 57: 
+            break;
+        case 57:
             dragging_bool_D = true;
-            break;    
-        case 58: 
+            break;
+        case 58:
             dragging_bool_E = true;
-            break;    
-        case 59: 
+            break;
+        case 59:
             dragging_bool_F = true;
-            break;    
-        case 60: 
+            break;
+        case 60:
             dragging_bool_G = true;
-            break;    
-        case 61: 
+            break;
+        case 61:
             dragging_bool_H = true;
-            break;    
-        case 62: 
+            break;
+        case 62:
             dragging_bool_I = true;
-            break;    
-        case 63: 
+            break;
+        case 63:
             dragging_bool_J = true;
             break;
         case 64: //LOGIC
             dragging_equal = true;
-            break;    
-        case 65: 
+            break;
+        case 65:
             dragging_greater_equal = true;
-            break;    
-        case 66: 
+            break;
+        case 66:
             dragging_less_equal = true;
-            break;    
-        case 67: 
+            break;
+        case 67:
             dragging_greater = true;
-            break;    
-        case 68: 
+            break;
+        case 68:
             dragging_less = true;
-            break;    
-        case 69: 
+            break;
+        case 69:
             dragging_unequal = true;
-            break;    
+            break;
         case 70: //MATH
             dragging_add = true;
             break;
-        case 71: 
+        case 71:
             dragging_div = true;
-            break;  
-        case 72: 
+            break;
+        case 72:
             dragging_exponent = true;
-            break;  
-        case 73: 
+            break;
+        case 73:
             dragging_mult = true;
-            break;  
-        case 74: 
+            break;
+        case 74:
             dragging_sub = true;
-            break;  
+            break;
+        case 83: //STATIC BOOL
+            dragging_static_false = true;
+            break;
+        case 84:
+            dragging_static_true = true;
+            break;
     }
     if(menu_selected == CONDITIONAL_BLOCK) {
         mouse_aux_x = 60;
@@ -3885,6 +4105,9 @@ void Interface :: check_menu_selected() {
     }
     if(menu_selected != LOGIC_AND_MATH_MENU) {
         logic_menu_selected = false;
+    }
+    if(menu_selected != STATIC_BOOL_MENU){
+        static_bool_menu_selected = false;
     }
 }
 int Interface :: getMenuClick() {
@@ -4076,6 +4299,8 @@ bool Interface :: check_enable_menu() {
     } else if(dragging_greater || dragging_greater_equal || dragging_less || dragging_less_equal || dragging_equal || dragging_unequal) {
         return false;
     } else if(dragging_sub || dragging_add || dragging_mult || dragging_div || dragging_exponent) {
+        return false;
+    } else if(dragging_static_false || dragging_static_true) {
         return false;
     } else {
         for(int i=0; i<valor_maximo_blocos; i++) {
