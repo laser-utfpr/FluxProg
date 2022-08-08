@@ -24,7 +24,7 @@ class Interface {
     ALLEGRO_COLOR black, scroll_bar_color;
     ALLEGRO_COLOR backgroud_color;
     ALLEGRO_COLOR white, strange_color;
-    ALLEGRO_COLOR primary_menu_color, blocks_menu_color, functions_menu_color, sensors_menu_color, numbers_menu_color;
+    ALLEGRO_COLOR primary_menu_color, blocks_menu_color, functions_menu_color, sensors_menu_color, numbers_menu_color, new_menu_color;
     ALLEGRO_DISPLAY *display;
     ALLEGRO_TIMER *timer;
     ALLEGRO_BITMAP *play_button, *play_button_selected, *pause_button, *pause_button_selected;
@@ -85,6 +85,28 @@ class Interface {
     bool executing_fluxogram;
     string program_path;
     int scroll_bar_x, scroll_bar_y;
+    //Imagens V3
+    ALLEGRO_BITMAP *NEW_MINI_MENU_IMG[4];
+    ALLEGRO_BITMAP *ATTRIBUTION_BLOCK_IMG[4], *MATH_BLOCK_IMG[4], *NEW_CONDITIONAL_BLOCK_IMG[4], *WHILE_BLOCK_IMG[4];
+    ALLEGRO_BITMAP *BOOL_VAR_IMG[10], *INT_VAR_IMG[10], *LOGIC_OPERATOR_IMG[6], *MATH_OPERATOR_IMG[5];
+    ALLEGRO_BITMAP *MICRO_BOOL_VAR_IMG[10], *MICRO_INT_VAR_IMG[10], *MICRO_LOGIC_OPERATOR_IMG[6], *MICRO_MATH_OPERATOR_IMG[5];
+    ALLEGRO_BITMAP *SLOT_NUMBER[10];
+    //v3
+    bool int_menu_selected, bool_menu_selected, logic_menu_selected, math_menu_selected;
+    //v3 dragging
+    bool dragging_int_A, dragging_int_B, dragging_int_C, dragging_int_D, dragging_int_E;
+    bool dragging_int_F, dragging_int_G, dragging_int_H, dragging_int_I, dragging_int_J;
+    bool dragging_bool_A, dragging_bool_B, dragging_bool_C, dragging_bool_D, dragging_bool_E;
+    bool dragging_bool_F, dragging_bool_G, dragging_bool_H, dragging_bool_I, dragging_bool_J;
+    bool dragging_equal, dragging_greater_equal, dragging_less_equal, dragging_greater, dragging_less, dragging_unequal;
+    bool dragging_add, dragging_div, dragging_exponent, dragging_mult, dragging_sub;
+    int** int_var_list;
+    bool** bool_var_list;
+    //v3 limit
+    int menu_var_and_symbols_y_begin;
+    int menu_var_and_symbols_y_limit;
+    int menu_new_blocks_y_begin;
+    int menu_new_blocks_y_limit;
 
     void load_bitmap(ALLEGRO_BITMAP **bitmap, const char *adress);
     void print_primary_menu();
@@ -114,10 +136,15 @@ class Interface {
     void check_menu_selected();
     void check_scrolling();
     void draw_scroll_bar();
+    //v3
+    void print_attribution_block(Block *b);
+    void print_math_block(Block *b);
+    void print_new_conditional_block(Block *b);
+    void print_while_block(Block *b);
 
 public:
 
-    Interface(Block** _blocks_list_to_print, string _program_path);
+    Interface(Block** _blocks_list_to_print, string _program_path, int** _int_var_list, bool** _bool_var_list);
     ~Interface();
     void draw();
     int getMenuClick();

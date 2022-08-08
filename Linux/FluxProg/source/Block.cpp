@@ -217,3 +217,84 @@ void Block :: setID(int i) {
 int Block :: getID() {
     return id;
 }
+int Block :: setFirstSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL) {
+    return 0;
+}
+int Block :: setSecondSlotAttr(int n, int* var_int = NULL, bool* var_bool = NULL, int value = 0) {
+    return 0;
+}
+int Block :: setFirstSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL){
+    return 0;
+}
+int Block :: setSecondSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+    return 0;
+}
+int Block :: setThirdSlotMath(int n = 0, int value = 0){
+    return 0;
+}
+int Block :: setFourthSlotMath(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+    return 0;
+}
+int Block :: setFirstSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL){
+    return 0;
+}
+int Block :: setSecondSlotConditional(int value = 0){
+    return 0;
+}
+int Block :: setThirdSlotConditional(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+    return 0;
+}
+int Block :: setFirstSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL){
+    return 0;
+}
+int Block :: setSecondSlotWhile(int value = 0){
+    return 0;
+}
+int Block :: setThirdSlotWhile(int n = 0, int* var_int = NULL, bool* var_bool = NULL, int value = 0){
+    return 0;
+}
+Block* Block :: executeFunction(){
+    return NULL;
+}
+int* Block :: returnIntVar_1(){
+    return 0;
+}
+bool* Block :: returnBoolVar_1(){
+    return 0;
+}
+int* Block :: returnIntVar_2(){
+    return 0;
+}
+bool* Block :: returnBoolVar_2(){
+    return 0;
+}
+int Block :: returnStaticValue_2(){
+    return 0;
+}
+int* Block :: returnIntVar_3(){
+    return 0;
+}
+bool* Block :: returnBoolVar_3(){
+    return 0;
+}
+int Block :: returnStaticValue_3(){
+    return 0;
+}
+int* Block :: returnIntVar_4(){
+    return 0;
+}
+bool* Block :: returnBoolVar_4(){
+    return 0;
+}
+int Block :: returnStaticValue_4(){
+    return 0;
+}
+int Block :: returnLogicSymbol_2(){
+    return 0;
+}
+int Block :: returnLogicSymbol_3(){
+    return 0;
+}
+int Block :: returnMathSymbol_3(){
+    return 0;
+}

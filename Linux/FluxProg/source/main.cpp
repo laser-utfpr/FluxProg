@@ -2,6 +2,7 @@
 
 int main()
 {
+    cout<<"Debug: Caminho - main() - FLUXPROG main.cpp" << endl;
     FluxProg fluxprog = FluxProg();
     fluxprog.start();
 

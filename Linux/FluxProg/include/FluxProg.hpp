@@ -20,6 +20,11 @@
 #include "Interface.hpp"
 #include "SaveFile.hpp"
 #include "LoadFile.hpp"
+//v3
+#include "AttributionBlock.hpp"
+#include "MathBlock.hpp"
+#include "NewConditionalBlock.hpp"
+#include "WhileBlock.hpp"
 #include <algorithm>
 using namespace std;
 #ifdef _WIN32
@@ -44,6 +49,10 @@ class FluxProg {
     SaveFile* save;
     LoadFile* load;
 
+    //v3
+    int* int_var_list[10];
+    bool* bool_var_list[10];
+
     void add_block(Block* b);
     void remove_block(Block* b);
     void refresh_executing_block();
@@ -62,6 +71,9 @@ class FluxProg {
     int check_abstraction_level();
     void reset_blocks_list();
     void delete_blocks_with_no_connections_function();
+
+    //v3
+    void reset_variable_arrays();
 
 public:
 

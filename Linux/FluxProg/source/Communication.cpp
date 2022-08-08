@@ -45,10 +45,10 @@ int* Communication::getBlackTypeReading()
     return black_type_sensor_reading.first;
 }
 
-int* Communication::getColorReading()
+/*int* Communication::setColorReading()
 {
     return color_sensor_reading.first;
-}
+}*/
 
 void  Communication::upadateReadings()
 {
@@ -56,7 +56,6 @@ void  Communication::upadateReadings()
     {
         ultrasonic_sensor_reading = shared_memory->find<int>(MEMORY_ULTRASONIC_SENSOR);
         black_type_sensor_reading = shared_memory->find<int>(MEMORY_VISION_SENSOR);
-        color_sensor_reading = shared_memory->find<int>(MEMORY_COLOR_SENSOR);
     }
     catch(...)
     {
@@ -84,6 +83,7 @@ void Communication :: inicialize() {
             cout<<"erro ao criar memoria" << endl;
         }
     }
+    //color_sensor_reading = shared_memory->find'<unsigned short int >(POSICAO_DETECTADA).first;
     command = shared_memory->construct<int>(MEMORY_COMMAND)();
     abstraction_level = shared_memory->construct<int>(MEMORY_ABSTRACTION)();
     virtual_robot = shared_memory->construct<int>(MEMORY_ROBOT_TYPE)();

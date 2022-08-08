@@ -10,7 +10,6 @@
 #define MEMORY_FEEDBACK "feedback"
 #define MEMORY_VISION_SENSOR "reading_VS"
 #define MEMORY_ULTRASONIC_SENSOR "readin_US"
-#define MEMORY_COLOR_SENSOR "readin_COLOR"
 #define MEMORY_ROBOT_TYPE "robot_type"
 
 //fisicas
@@ -42,6 +41,16 @@
 #define N_LOOP_BLOCK 21
 #define T_LOGIC_BLOCK 22
 #define F_LOGIC_BLOCK 23
+
+//definicoes Fluxprog v3
+#define INT_MENU 75
+#define BOOL_MENU 76
+#define LOGIC_AND_MATH_MENU 77
+//#define MATH_MENU 78
+#define ATTRIBUTION_BLOCK 78
+#define MATH_BLOCK 79
+#define NEW_CONDITIONAL_BLOCK 80
+#define WHILE_BLOCK 81
 
 #define BLACK_SENSOR_1 1
 #define BLACK_SENSOR_2 2
@@ -76,7 +85,7 @@
 #define scroll_bar_y_begin 84
 //#define display_width 670
 #define display_width 800
-#define display_height 630
+#define display_height 925
 #define roll_bar_width 20
 #define roll_bar_height 30
 

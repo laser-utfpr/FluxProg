@@ -2,6 +2,7 @@
 
 FluxProg :: FluxProg() {
 
+    cout<<"Debug: Caminho - FluxProg() - FLUXPROG FluxProg.cpp" << endl;
     executing_fluxogram = false;
     current_executing_block = NULL;
     program_connected = false;
@@ -13,9 +14,18 @@ FluxProg :: FluxProg() {
     for(int i=0; i<valor_maximo_blocos; i++) {
         blocks_list_to_print[i] = NULL;
     }
+    //v3
+    for(int i=0; i<10; i++) {
+        int_var_list[i] = new int;
+        *int_var_list[i] = 0;
+    }
+    for(int i=0; i<10; i++) {
+        bool_var_list[i] = new bool;
+        *bool_var_list[i] = false;
+    }
     program_path = getExecutablePath();
     program_path += "/";
-    gui = new Interface(blocks_list_to_print, program_path);
+    gui = new Interface(blocks_list_to_print, program_path, int_var_list, bool_var_list);
     #ifndef _WIN32
         size_t pos = program_path.find(" ", 0);
         while(pos != string::npos)
@@ -31,6 +41,7 @@ FluxProg :: FluxProg() {
 }
 FluxProg :: ~FluxProg() {
 
+    cout<<"Debug: Caminho - ~FluxProg() - FLUXPROG FluxProg.cpp" << endl;
     for(int i=0; i<valor_maximo_blocos; i++) {
         delete blocks_list_to_print[i];
     }
@@ -46,6 +57,7 @@ FluxProg :: ~FluxProg() {
 
 void FluxProg :: start() {
 
+    cout<<"Debug: Caminho - start() - FLUXPROG FluxProg.cpp" << endl;
     while(gui->getExecuting()) {
 
         gui->draw();
@@ -96,6 +108,7 @@ void FluxProg :: start() {
         if(gui->getMenuClick() == STOP) {
             executing_fluxogram = false;
             paused = false;
+            reset_variable_arrays(); //v3
             reset_fluxogram_execution();
             reset_executing_block();
         }
@@ -193,6 +206,7 @@ void FluxProg :: start() {
             aux->setID(ids);
             ids = ids + 1;
             add_block(aux);
+            cout<<"gui->getMenuClick() - CONDITIONAL_BLOCK"<<endl;
         }
         if(gui->getMenuClick() == ACTION_BLOCK) {
             ActionBlock *aux = new ActionBlock();
@@ -207,6 +221,7 @@ void FluxProg :: start() {
             aux->setID(ids);
             ids = ids + 1;
             add_block(aux);
+            cout<<"gui->getMenuClick() - ACTION_BLOCK"<<endl;
         }
         if(gui->getMenuClick() == START_BLOCK) {
             StartBlock *aux = new StartBlock();
@@ -220,6 +235,7 @@ void FluxProg :: start() {
             aux->setID(ids);
             ids = ids + 1;
             add_block(aux);
+            cout<<"gui->getMenuClick() - START_BLOCK"<<endl;
         }
         if(gui->getMenuClick() == END_BLOCK) {
             EndBlock *aux = new EndBlock();
@@ -233,6 +249,7 @@ void FluxProg :: start() {
             aux->setID(ids);
             ids = ids + 1;
             add_block(aux);
+            cout<<"gui->getMenuClick() - END_BLOCK"<<endl;
         }
         if(gui->getMenuClick() == MERGE_BLOCK) {
             MergeBlock *aux = new MergeBlock();
@@ -246,6 +263,7 @@ void FluxProg :: start() {
             aux->setID(ids);
             ids = ids + 1;
             add_block(aux);
+            cout<<"gui->getMenuClick() - MERGE_BLOCK"<<endl;
         }
         if(gui->getMenuClick() == LOOP_BLOCK) {
             LoopBlock *aux = new LoopBlock();
@@ -254,6 +272,66 @@ void FluxProg :: start() {
             aux->setX(gui->getMouseX()-30);
             aux->setY(gui->getMouseY()-40);
             aux->setName("bloco de loop");
+            aux->setLimitedLoop(true);
+            aux->setValue(0);
+            aux->setSelected(true);
+            aux->setDragging(true);
+            aux->setID(ids);
+            ids = ids + 1;
+            add_block(aux);
+            cout<<"gui->getMenuClick() - LOOP_BLOCK"<<endl;
+        }
+        //v3
+        if(gui->getMenuClick() == ATTRIBUTION_BLOCK) {
+            AttributionBlock *aux = new AttributionBlock();
+            cout<<"Debug: Caminho - start() - gui->getMenuClick() == ATTRIBUTION_BLOCK - FLUXPROG FluxProg.cpp" << endl;
+            aux->setWidth(gui->getImageWidth(7));
+            aux->setHeight(gui->getImageHeight(7));
+            aux->setName("Bloco de Atribuicao");
+            aux->setX(gui->getMouseX()-80);
+            aux->setY(gui->getMouseY()-20);
+            aux->setSelected(true);
+            aux->setDragging(true);
+            aux->setID(ids);
+            ids = ids + 1;
+            add_block(aux);
+        }
+        if(gui->getMenuClick() == MATH_BLOCK) {
+            MathBlock *aux = new MathBlock();
+            cout<<"Debug: Caminho - start() - gui->getMenuClick() == MATH_BLOCK - FLUXPROG FluxProg.cpp" << endl;
+            aux->setWidth(gui->getImageWidth(8));
+            aux->setHeight(gui->getImageHeight(8));
+            aux->setX(gui->getMouseX()-110);
+            aux->setY(gui->getMouseY()-20);
+            aux->setName("Bloco de Math");
+            aux->setSelected(true);
+            aux->setDragging(true);
+            aux->setID(ids);
+            ids = ids + 1;
+            add_block(aux);
+        }
+        if(gui->getMenuClick() == NEW_CONDITIONAL_BLOCK) {
+            NewConditionalBlock *aux = new NewConditionalBlock();
+            cout<<"Debug: Caminho - start() - gui->getMenuClick() == NEW_CONDITIONAL_BLOCK - FLUXPROG FluxProg.cpp" << endl;
+            aux->setWidth(gui->getImageWidth(9));
+            aux->setHeight(gui->getImageHeight(9));
+            aux->setX(gui->getMouseX()-80);
+            aux->setY(gui->getMouseY()-20);
+            aux->setName("Bloco de Condicional");
+            aux->setSelected(true);
+            aux->setDragging(true);
+            aux->setID(ids);
+            ids = ids + 1;
+            add_block(aux);
+        }
+        if(gui->getMenuClick() == WHILE_BLOCK) {
+            WhileBlock *aux = new WhileBlock();
+            cout<<"Debug: Caminho - start() - gui->getMenuClick() == WHILE_BLOCK - FLUXPROG FluxProg.cpp" << endl;
+            aux->setWidth(gui->getImageWidth(10));
+            aux->setHeight(gui->getImageHeight(10));
+            aux->setX(gui->getMouseX()-80);
+            aux->setY(gui->getMouseY()-20);
+            aux->setName("Bloco de While");
             aux->setLimitedLoop(true);
             aux->setValue(0);
             aux->setSelected(true);
@@ -352,7 +430,7 @@ void FluxProg :: execute() {
                     communication->upadateReadings();
                     int* black_sensor_reading = communication->getBlackTypeReading();
                     int* ultrasonic_sensor_reading = communication->getUltrasonicReading();
-                    int* color_sensor_reading = communication->getColorReading();
+                    //Color sensor aqui
                     int low_limit_ultrasonic = 19;
                     int high_limit_ultrasonic = 21;
                     //checa tipo de sensor
@@ -390,12 +468,13 @@ void FluxProg :: execute() {
                             break;
                         case 6:
                             //color sensor 1
-                            current_executing_block->setParameter1(color_sensor_reading[0]);
+                            //Ajustar aqui
+                            current_executing_block->setParameter1(1);
                             current_executing_block->setParameter2(1);
                             break;
                         case 7:
                             //color sensor 2
-                            current_executing_block->setParameter1(color_sensor_reading[1]);
+                            current_executing_block->setParameter1(0);
                             current_executing_block->setParameter2(1);
                             break;
                         case 8:
@@ -433,9 +512,12 @@ void FluxProg :: execute() {
                 //se for 1 significa que terminou execução ou está pronto para receber
                 if(communication->getFeedback() == READY) {
                     //testa se o próximo é não nulo
-                    if(current_executing_block->getExecutingNext() != NULL) {
+                    Block* tmp = current_executing_block->getExecutingNext();
+                    if(tmp != NULL) {
                         std::cout<<"executou bloco: "<<current_executing_block->getName()<<std::endl;
-                        current_executing_block = current_executing_block->getExecutingNext();
+                        //v3 observacoes: bloco de loop atualiza ao chamar getExecutingNext(), o mesmo pode ser feito para os novos blocos.
+                        //current_executing_block = current_executing_block->getExecutingNext();
+                        current_executing_block = tmp;
                         refresh_executing_block();
                         //bloco de ação
                         if(current_executing_block->getType() == ACTION_BLOCK) {
@@ -819,5 +901,14 @@ void FluxProg :: delete_blocks_with_no_connections_function() {
                 }
             }
         }
+    }
+}
+//v3
+void FluxProg :: reset_variable_arrays() {
+    for(int i=0; i<10; i++) {
+        *int_var_list[i] = 0;
+    }
+    for(int i=0; i<10; i++) {
+        *bool_var_list[i] = false;
     }
 }
