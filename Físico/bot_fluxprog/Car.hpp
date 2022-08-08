@@ -20,14 +20,14 @@ class Car {
 
   Stream& fluxprog;
   char packet[64];
-  
+
   MotorController& m1;
   MotorController& m2;
   Infrared& ir;
   Ultrasonic& ultrasonic;
   ColorSensor& cs1;
   ColorSensor& cs2;
-  
+
   unsigned long last_update = 0;
   int last_err = 0;
 
@@ -40,7 +40,7 @@ public:
 
   void send_sensors();
   void setState(CarState st) { state = st; stime = 0; substate = 0; }
-  
+
   void run(float s1, float s2);
   void inverse_kinematics(float vx, float omega);
 };

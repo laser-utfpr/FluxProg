@@ -8,7 +8,7 @@ public:
   ColorSensor(int s0, int s1, int s2, int s3, int oe, int out)
   : s0{s0}, s1{s1}, s2{s2}, s3{s3}, oe{oe}, out{out} { }
   inline void intPin() { counter += 4; }
-  inline void intTimer() { 
+  inline void intTimer() {
     selColor(sel);
     value[sel] = counter;
     counter = 0;
@@ -30,7 +30,7 @@ public:
     digitalWrite(s1, LOW);
   }
 
-  const Color& getColor() { 
+  const Color& getColor() {
     int d_black = euc_dist(value, black);
     int d_white = euc_dist(value, white);
     int d_green = euc_dist(value, green);
@@ -44,7 +44,7 @@ public:
   bool isGreen() { return getColor() == green; }
 
   Color getRawColor() { return value; }
-  
+
 private:
   Color black{20, 50, 10, 20};
   Color white{72, 220, 75, 85};

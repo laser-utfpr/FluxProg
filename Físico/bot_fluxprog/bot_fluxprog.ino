@@ -33,7 +33,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(cs1.out_pin()), inc_cs1, CHANGE);
   cs2.begin();
   attachInterrupt(digitalPinToInterrupt(cs2.out_pin()), inc_cs2, CHANGE);
-  
+
   // NAO Timer1.setPeriod(int(0.25e6));
   // O timer jah eh configurado pelo pwm dos motores
   Timer1.attachInterrupt(int_timer);

@@ -17,7 +17,7 @@ struct Color {
 
   int& operator[](ColorSelector sel) {
     switch (sel) {
-    case ColorSelector::R: return r; 
+    case ColorSelector::R: return r;
     case ColorSelector::G: return g;
     case ColorSelector::B: return b;
     case ColorSelector::W: return w;
