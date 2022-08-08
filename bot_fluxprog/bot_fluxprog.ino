@@ -48,14 +48,11 @@ void loop() {
     Serial.print("Recebido: ");
     Serial.println(c);
 
-    if (c == 's') {
-      car.setState(CarState::FollowLine);
-    }
-    else if (c == 'p') {
+    if (c == 'p') {
       car.setState(CarState::Stop);
     }
     else if (c == 'f' || c == 8) {
-      car.setState(CarState::Forward);
+      car.setState(CarState::FollowLine);
     }
     else if (c == 'l' || c == 4) {
       car.setState(CarState::Left);

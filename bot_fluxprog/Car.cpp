@@ -48,12 +48,6 @@ void Car::update() {
       send_sensors();
     }
     break;
-  case CarState::Forward:
-    inverse_kinematics(10, 0);
-    if (stime > 100) {
-      setState(CarState::Stop);
-    }
-    break;
   case CarState::Left:
     run(-5, 5);
     if (ir.falling(0b1000)) {

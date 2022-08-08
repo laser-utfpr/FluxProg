@@ -9,7 +9,6 @@
 enum class CarState {
   Stop,
   FollowLine,
-  Forward,
   Left,
   Right,
 };
